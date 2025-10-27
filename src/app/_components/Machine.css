@@ -1,0 +1,21 @@
+.object-wrap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.object-container {
+  height: 400px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 2px red;
+}
+
+.object {
+  width: 400px;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
