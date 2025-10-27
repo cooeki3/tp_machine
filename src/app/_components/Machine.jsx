@@ -15,7 +15,6 @@ import useLenis from "../_hooks/useLenis.jsx";
 // import Header from "./Header.jsx";
 // import LandingPage from "./LandingPage.jsx";
 // import LightModeToggle from "./LightModeToggle.jsx";
-// import CustomCursor from "./CustomCursor.jsx";
 
 import "./Machine.css";
 // import "./Header.css";
@@ -51,7 +50,7 @@ const Machine = () => {
       tl.set(img, { y: -290, duration: 0.5 });
       tl.to(img, { y: 600, delay: gsap.utils.random(0, 0.1) });
       timelines.current.push(tl);
-      GSDevTools.create({ animation: tl });
+      // GSDevTools.create({ animation: tl });
     });
   });
 
@@ -60,14 +59,50 @@ const Machine = () => {
   }
 
   return (
-    <div className="object-wrap">
-      <div className="object-container">
-        <img className="object object-1" src="png/machine_coin.png" alt="" />
-        <img className="object object-2" src="png/machine_star.png" alt="" />
-        <img className="object object-3" src="png/machine_galaxy.png" alt="" />
+    <>
+      {/* Jai fait ca de meme juste pour la mise en pase, on fera des components apres uwu */}
+      <div className="page-background"></div>
+      <div className="logo-container">
+        <img className="logo" src="/png/logo.png" alt="" />
       </div>
-      <button onClick={playAll}>Jouer</button>
-    </div>
+
+      {/* Espace légende */}
+      <div className="legende-container"></div>
+
+      {/* Espace jeu */}
+      <div className="object-wrap">
+        <div className="jeuCadre"></div>
+        <div className="object-container">
+          <img className="object object-1" src="/png/machine_coin.png" alt="" />
+          <img className="object object-2" src="/png/machine_star.png" alt="" />
+          <img
+            className="object object-3"
+            src="/png/machine_galaxy.png"
+            alt=""
+          />
+        </div>
+      </div>
+
+      {/* Boutons jouer + ON */}
+      <div className="boutons-container">
+        <button className="boutons jouer" onClick={playAll}>
+          Jouer
+        </button>
+        <button className="boutons allumer">ON / OFF</button>
+      </div>
+
+      {/* Boutons mise + balance */}
+      <div className="compteurs-container">
+        <div className="btn-mise">
+          <button className="boutons-compteurs"></button>
+          <p className="btn-mise-text">Mise: 200$</p>
+          <button className="boutons-compteurs"></button>
+        </div>
+        <div className="balance">
+          <p className="balance-text">Balance: 500000$</p>
+        </div>
+      </div>
+    </>
   );
 };
 
