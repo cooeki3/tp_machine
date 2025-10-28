@@ -38,21 +38,43 @@ const Machine = () => {
     const imgs = document.querySelectorAll(".object");
     timelines.current = [];
 
-    imgs.forEach((img, i) => {
+    imgs.forEach((img) => {
+      let repeatCount = 0;
+
       const tl = gsap.timeline({
         repeat: -1,
         paused: true,
         onRepeat: () => {
+          repeatCount++;
+
+
           const randomUrl = gsap.utils.random(imgUrls);
           img.src = randomUrl;
+
+
+          // if (repeatCount >= 6) {
+          //   tl.pause();
+          //   repeatCount = 0;
+          // }
         },
       });
-      tl.set(img, { y: -290, duration: 0.5 });
-      tl.to(img, { y: 600});
+
+
+      tl.set(img, {
+        y: -420
+      });
+
+      tl.to(img, {
+        y: 600,
+        duration: 0.35,
+        ease: "none",
+
+      });
+
       timelines.current.push(tl);
-      // GSDevTools.create({ animation: tl });
     });
   });
+
 
   function playAll() {
     timelines.current.forEach((tl) => tl.play());
