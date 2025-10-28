@@ -1,3 +1,5 @@
+import "./Boutons.css";
+
 const Boutons = ({ playAll, togglePower, isOn }) => {
   return (
     <div className="boutons-container">

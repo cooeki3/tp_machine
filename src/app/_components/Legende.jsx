@@ -1,3 +1,5 @@
+import "./Legende.css";
+
 const Legende = ({ isOn }) => {
   return (
     <div className="legende-container">
