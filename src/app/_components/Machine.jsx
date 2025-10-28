@@ -38,8 +38,6 @@ const Machine = () => {
   //State Dernier changement (balance)
   const [lastChange, setLastChange] = useState(0);
 
-  const [isOn, setIsOn] = useState(true);
-
   //Logique bet
   const augmenterMise = () => {
     if (miseInitale < 100) setMiseInitale(miseInitale + 5);
