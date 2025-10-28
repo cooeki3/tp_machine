@@ -1,11 +1,13 @@
 const Boutons = ({ playAll, togglePower, isOn }) => {
   return (
     <div className="boutons-container">
-      <button className="boutons jouer" onClick={playAll}>
-        Jouer
-      </button>
+      {isOn && (
+        <button className="boutons jouer" onClick={playAll}>
+          Jouer
+        </button>
+      )}
       <button className="boutons allumer" onClick={togglePower}>
-        {isOn ? "OFF" : "ON"}
+        {isOn ? "Éteindre" : "Allumer"}
       </button>
     </div>
   );
