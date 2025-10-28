@@ -1,4 +1,4 @@
-import "./Boutons.css";
+import "./Compteurs.css";
 
 const Compteurs = ({
   miseInitale,
@@ -20,7 +20,7 @@ const Compteurs = ({
         {isOn && <p className="balance-text">Balance: {balance}$</p>}
         {/* Pop up qui affiche si win ou lose et le montant */}
         {lastChange !== 0 && (
-          <p className={"balance-change" + lastChange > 0 ? "win" : "lose"}>
+          <p className={`balance-change ${lastChange > 0 ? "win" : "lose"}`}>
             {lastChange > 0 ? "+" + lastChange : "" + lastChange}
           </p>
         )}
