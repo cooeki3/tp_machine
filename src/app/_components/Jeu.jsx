@@ -1,3 +1,5 @@
+import "./Jeu.css";
+
 const Jeu = () => {
   return (
     <div className="object-wrap">

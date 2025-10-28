@@ -27,12 +27,16 @@ const Machine = () => {
     "png/machine_galaxy.png",
   ];
 
-  // 💰 Bet state
+  //State Bet
   const [miseInitale, setMiseInitale] = useState(10);
+  //State On/Off
+  const [isOn, setIsOn] = useState(false);
+  //State Balance
+  const [balance, setBalance] = useState(500);
+  //State Dernier changement (balance)
+  const [lastChange, setLastChange] = useState(0);
 
-  // 🔌 Power ON/OFF
-  const [isOn, setIsOn] = useState(true);
-
+  //Logique bet
   const augmenterMise = () => {
     if (miseInitale < 100) setMiseInitale(miseInitale + 5);
   };
@@ -41,6 +45,7 @@ const Machine = () => {
     if (miseInitale > 5) setMiseInitale(miseInitale - 5);
   };
 
+  //Logique on/off
   const togglePower = () => {
     setIsOn(!isOn);
   };
@@ -66,7 +71,16 @@ const Machine = () => {
   });
 
   function playAll() {
+    if (!isOn) return;
+
+    setBalance((prev) => prev - miseInitale);
+    setLastChange(-miseInitale);
+
     timelines.current.forEach((tl) => tl.play());
+
+    setTimeout(() => {
+      setLastChange(0);
+    }, 1000);
   }
 
   return (
@@ -88,6 +102,8 @@ const Machine = () => {
         miseInitale={miseInitale}
         augmenterMise={augmenterMise}
         diminuerMise={diminuerMise}
+        balance={balance}
+        lastChange={lastChange}
       />
     </>
   );
