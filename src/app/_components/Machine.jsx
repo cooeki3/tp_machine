@@ -21,11 +21,13 @@ const Machine = () => {
   useLenis();
   const timelines = useRef([]);
 
-  const imgUrls = [
-    "png/machine_coin.png",
-    "png/machine_star.png",
-    "png/machine_galaxy.png",
+  var symbols = [
+    { key: "coin", url: "png/machine_coin.png" },
+    { key: "star", url: "png/machine_star.png" },
+    { key: "galaxy", url: "png/machine_galaxy.png" },
   ];
+
+  var imgUrls = symbols.map((image) => image.url);
 
   //State Bet
   const [miseInitale, setMiseInitale] = useState(10);
@@ -35,6 +37,8 @@ const Machine = () => {
   const [balance, setBalance] = useState(500);
   //State Dernier changement (balance)
   const [lastChange, setLastChange] = useState(0);
+
+  const [isOn, setIsOn] = useState(true);
 
   //Logique bet
   const augmenterMise = () => {
@@ -56,19 +60,24 @@ const Machine = () => {
 
     imgs.forEach((img) => {
       const tl = gsap.timeline({
-        repeat: -1,
+        repeat: 3,
         paused: true,
         onRepeat: () => {
           const randomUrl = gsap.utils.random(imgUrls);
           img.src = randomUrl;
         },
+        onComplete: () => {
+          showResults();
+        },
       });
 
       tl.set(img, { y: -420 });
-      tl.to(img, { y: 600, duration: 0.35, ease: "none" });
+      tl.to(img, { y: 600, duration: 0.35, ease: "none", stagger: 0.1 });
       timelines.current.push(tl);
     });
   });
+
+  function showResults() {}
 
   function playAll() {
     if (!isOn) return;
@@ -77,11 +86,29 @@ const Machine = () => {
     setLastChange(-miseInitale);
 
     timelines.current.forEach((tl) => tl.play());
+  }
 
+  useGSAP(() => {
+    const imgs = document.querySelectorAll(".object");
+    if (!isOn) {
+      gsap.to(imgs, {
+        y: -450,
+        duration: 0.3,
+        ease: "power3.out",
+      });
+      timelines.current.forEach((tl) => tl.pause());
+    } else {
+      gsap.to(imgs, {
+        y: 0,
+        duration: 0.6,
+        ease: "elastic.out(1,0.5)",
+      });
+      timelines.current.forEach((tl) => tl.pause());
+    }
     setTimeout(() => {
       setLastChange(0);
     }, 1000);
-  }
+  });
 
   return (
     <>
