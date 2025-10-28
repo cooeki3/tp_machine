@@ -1,80 +1,69 @@
 "use client";
-
+import { useState, useRef } from "react";
 import gsap from "gsap";
 import { CustomEase } from "gsap/all";
-import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { GSDevTools } from "gsap/GSDevTools";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import { useAudio } from "@/app/_contexts/AudioContext.jsx";
 
 import useLenis from "../_hooks/useLenis.jsx";
-
-// import Citation from "./Citation.jsx";
-// import Header from "./Header.jsx";
-// import LandingPage from "./LandingPage.jsx";
-// import LightModeToggle from "./LightModeToggle.jsx";
-
 import "./Machine.css";
-// import "./Header.css";
-// import "./LandingPage.css";
-// import "./LightModeToggle.css";
-// import "./CustomCursor.css";
-// import "./Fonts.css";
+
+import Legende from "./Legende.jsx";
+import Jeu from "./Jeu.jsx";
+import Compteurs from "./Compteurs.jsx";
+import Boutons from "./Boutons.jsx";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, GSDevTools, SplitText, CustomEase);
 
 const Machine = () => {
   useLenis();
   const timelines = useRef([]);
+
   const imgUrls = [
     "png/machine_coin.png",
     "png/machine_star.png",
     "png/machine_galaxy.png",
   ];
 
+  // 💰 Bet state
+  const [miseInitale, setMiseInitale] = useState(10);
+
+  // 🔌 Power ON/OFF
+  const [isOn, setIsOn] = useState(true);
+
+  const augmenterMise = () => {
+    if (miseInitale < 100) setMiseInitale(miseInitale + 5);
+  };
+
+  const diminuerMise = () => {
+    if (miseInitale > 5) setMiseInitale(miseInitale - 5);
+  };
+
+  const togglePower = () => {
+    setIsOn(!isOn);
+  };
+
   useGSAP(() => {
     const imgs = document.querySelectorAll(".object");
     timelines.current = [];
 
     imgs.forEach((img) => {
-      let repeatCount = 0;
-
       const tl = gsap.timeline({
         repeat: -1,
         paused: true,
         onRepeat: () => {
-          repeatCount++;
-
-
           const randomUrl = gsap.utils.random(imgUrls);
           img.src = randomUrl;
-
-
-          // if (repeatCount >= 6) {
-          //   tl.pause();
-          //   repeatCount = 0;
-          // }
         },
       });
 
-
-      tl.set(img, {
-        y: -420
-      });
-
-      tl.to(img, {
-        y: 600,
-        duration: 0.35,
-        ease: "none",
-
-      });
-
+      tl.set(img, { y: -420 });
+      tl.to(img, { y: 600, duration: 0.35, ease: "none" });
       timelines.current.push(tl);
     });
   });
-
 
   function playAll() {
     timelines.current.forEach((tl) => tl.play());
@@ -82,48 +71,24 @@ const Machine = () => {
 
   return (
     <>
-      {/* Jai fait ca de meme juste pour la mise en pase, on fera des components apres uwu */}
       <div className="page-background"></div>
+
       <div className="logo-container">
-        <img className="logo" src="/png/logo.png" alt="" />
+        <img className="logo" src="/png/logo.png" alt="Logo" />
       </div>
 
-      {/* Espace légende */}
-      <div className="legende-container"></div>
+      <Legende isOn={isOn} />
 
-      {/* Espace jeu */}
-      <div className="object-wrap">
-        <div className="jeuCadre"></div>
-        <div className="object-container">
-          <img className="object object-1" src="/png/machine_coin.png" alt="" />
-          <img className="object object-2" src="/png/machine_star.png" alt="" />
-          <img
-            className="object object-3"
-            src="/png/machine_galaxy.png"
-            alt=""
-          />
-        </div>
-      </div>
+      <Jeu />
 
-      {/* Boutons jouer + ON */}
-      <div className="boutons-container">
-        <button className="boutons jouer" onClick={playAll}>
-          Jouer
-        </button>
-        <button className="boutons allumer">ON / OFF</button>
-      </div>
+      <Boutons playAll={playAll} togglePower={togglePower} isOn={isOn} />
 
-      {/* Boutons mise + balance */}
-      <div className="compteurs-container">
-        <div className="btn-mise">
-          <button className="boutons-compteurs"></button>
-          <p className="btn-mise-text">Mise: 200$</p>
-          <button className="boutons-compteurs"></button>
-        </div>
-        <div className="balance">
-          <p className="balance-text">Balance: 500000$</p>
-        </div>
-      </div>
+      <Compteurs
+        isOn={isOn}
+        miseInitale={miseInitale}
+        augmenterMise={augmenterMise}
+        diminuerMise={diminuerMise}
+      />
     </>
   );
 };

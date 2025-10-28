@@ -29,6 +29,15 @@
   background-size: contain;
 }
 
+.legende-content {
+  position: absolute;
+  left: 130;
+  top: 130;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
 .object-wrap {
   position: absolute;
   left: 30%;
@@ -95,6 +104,8 @@
   border: none;
   cursor: pointer;
   z-index: 100;
+  color: white;
+  font-size: 20px;
 }
 
 .jouer {
