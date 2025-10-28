@@ -48,7 +48,7 @@ const Machine = () => {
         },
       });
       tl.set(img, { y: -290, duration: 0.5 });
-      tl.to(img, { y: 600, delay: gsap.utils.random(0, 0.1) });
+      tl.to(img, { y: 600});
       timelines.current.push(tl);
       // GSDevTools.create({ animation: tl });
     });

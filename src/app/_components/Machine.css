@@ -45,9 +45,10 @@
   position: relative;
   width: 1030px;
   height: 650px;
+  padding: 70px;
   overflow: hidden;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   z-index: 1;
   background-image: url("/png/jeuBG.png");
@@ -71,9 +72,8 @@
 }
 
 .object {
-  width: 350px;
-  aspect-ratio: 16/9;
-  object-fit: cover;
+  width: 200px;
+  object-fit: content;
 }
 
 .boutons-container {
