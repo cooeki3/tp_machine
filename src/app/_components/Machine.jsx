@@ -35,10 +35,11 @@ const Machine = () => {
   const [isOn, setIsOn] = useState(false);
   //State Balance
   const [balance, setBalance] = useState(500);
-  //State Dernier changement (balance)
-  const [lastChange, setLastChange] = useState(0);
   //State lors que ca spin
   const [isSpinning, setIsSpinning] = useState(false);
+  const [currentBet, setCurrentBet] = useState(0);
+  //State pour trigger le popup
+  const [betPopupTrigger, setBetPopupTrigger] = useState(0); // NEW
 
   //Logique bet
   const augmenterMise = () => {
@@ -103,8 +104,9 @@ const Machine = () => {
     if (!isOn || isSpinning) return;
     setIsSpinning(true);
 
+    setCurrentBet(miseInitale);
+    setBetPopupTrigger((prev) => prev + 1); // NEW - Trigger le popup
     setBalance((prev) => prev - miseInitale);
-    setLastChange(-miseInitale);
     timelines.current.forEach((tl) => tl.restart());
   }
 
@@ -124,9 +126,6 @@ const Machine = () => {
         timelines.current.forEach((tl) => tl.pause());
         setIsSpinning(false);
       }
-      setTimeout(() => {
-        setLastChange(0);
-      }, 1000);
     },
     { dependencies: [isOn] }
   );
@@ -151,7 +150,8 @@ const Machine = () => {
         augmenterMise={augmenterMise}
         diminuerMise={diminuerMise}
         balance={balance}
-        lastChange={lastChange}
+        currentBet={currentBet} // NEW
+        betPopupTrigger={betPopupTrigger} // NEW
       />
     </>
   );

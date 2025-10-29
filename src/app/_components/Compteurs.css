@@ -106,3 +106,31 @@
     opacity: 1;
   }
 }
+
+/* ===== Bet Popup ===== */
+.bet-popup {
+  position: absolute;
+  bottom: 800px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 80px;
+  font-weight: bold;
+  color: #ffd700; /* Gold color for bet */
+  animation: betPopUp 0.8s ease-out forwards;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes betPopUp {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px) scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-5px) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-15px) scale(1);
+  }
+}
