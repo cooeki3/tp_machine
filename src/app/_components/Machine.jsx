@@ -112,10 +112,8 @@ const Machine = () => {
     () => {
       const imgs = document.querySelectorAll(".object");
       if (!isOn) {
-        gsap.set(imgs, {
-          y: -450,
-        });
         timelines.current.forEach((tl) => tl.pause());
+        gsap.to(imgs, { y: -450, duration: 0.2, overwrite: "auto" });
       } else {
         gsap.to(imgs, {
           y: 0,
