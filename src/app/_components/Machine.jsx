@@ -29,8 +29,6 @@ const Machine = () => {
   const [miseInitale, setMiseInitale] = useState(initialBet);
   //State On/Off
   const [isOn, setIsOn] = useState(false);
-  //State Mise initiale
-  const [miseInitale, setMiseInitale] = useState(10);
   //State Balance restante
   const [balanceRestante, setBalanceRestante] = useState(500);
   //State Spin des symboles
@@ -44,10 +42,9 @@ const Machine = () => {
   //State Trigger win popup
   const [winPopupTrigger, setWinPopupTrigger] = useState(0);
   //State Mise max
-  const [isMiseMax, setIsMaxBet] = useState(false);
+  const [isMiseMax, setIsMiseMax] = useState(false);
   //State Animation balance négative
   const [balanceAnimating, setBalanceAnimating] = useState(false);
-
 
   useEffect(() => {
     //Animation du popup de la mise quand le joueur appuie sur jouer
@@ -76,8 +73,8 @@ const Machine = () => {
     if (miseInitale < 100) {
       setMiseInitale(miseInitale + 5);
     } else {
-      setIsMaxBet(true);
-      setTimeout(() => setIsMaxBet(false), 1500);
+      setIsMiseMax(true);
+      setTimeout(() => setIsMiseMax(false), 1500);
     }
   };
 
@@ -88,7 +85,7 @@ const Machine = () => {
   //Logique on/off
   const togglePower = () => {
     if (isOn) {
-      setBalance(initialBalance);
+      setBalanceRestante(initialBalance);
       setMiseInitale(initialBet);
       // setCurrentBet(10);
       setIsSpinning(false);
@@ -211,15 +208,14 @@ const Machine = () => {
       return;
     } else if (isSpinning) {
       return;
-
     } else {
       setIsSpinning(true);
 
       const betAmount = miseInitale;
 
-    setBetPopupMontant(miseInitale);
-    setMisePopupTrigger((prev) => prev + 1);
-    setBalanceRestante((prev) => prev - betAmount);
+      setBetPopupMontant(miseInitale);
+      setMisePopupTrigger((prev) => prev + 1);
+      setBalanceRestante((prev) => prev - betAmount);
 
       miseRef.current = miseInitale;
 
@@ -239,8 +235,7 @@ const Machine = () => {
           opacity: 1,
           duration: 0.6,
           ease: "elastic.out(1,0.5)",
-          onComplete: () =>
-            setIsSpinning(false)
+          onComplete: () => setIsSpinning(false),
         });
 
         timelines.current.forEach((tl) => tl.pause());
@@ -280,3 +275,4 @@ const Machine = () => {
 };
 
 export default Machine;
+ok
