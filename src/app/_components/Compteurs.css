@@ -48,7 +48,6 @@
   font-size: 20px;
 }
 
-/* ===== Balance Section ===== */
 .balance {
   position: relative;
   width: 334px;
@@ -88,6 +87,15 @@
   animation: popUp 0.8s ease-out forwards;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+
+.bet {
+  color: #ff0000;
+}
+
+.win {
+  color: rgb(102, 255, 0);
+}
+
 
 @keyframes popUp {
   0% {

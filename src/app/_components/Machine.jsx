@@ -39,21 +39,12 @@ const Machine = () => {
   const [isSpinning, setIsSpinning] = useState(false);
   //Mise
   const [currentBet, setCurrentBet] = useState(0);
-  //State pour trigger le popup
-  const [popupAmount, setPopupAmount] = useState(0);
-  const [popupType, setPopupType] = useState("");
+  //States pour trigger le popup
+  const [betPopupAmount, setBetPopupAmount] = useState(0);
   const [betPopupTrigger, setBetPopupTrigger] = useState(0);
-  const [displayPopup, setDisplayPopup] = useState(false);
 
-  useEffect(() => {
-    if (betPopupTrigger > 0) {
-      setDisplayPopup(true);
-      const timer = setTimeout(() => {
-        setDisplayPopup(false);
-      }, 800);
-      return () => clearTimeout(timer);
-    }
-  }, [betPopupTrigger]);
+  const [winPopupAmount, setWinPopupAmount] = useState(0);
+  const [winPopupTrigger, setWinPopupTrigger] = useState(0);
 
   const miseRef = useRef(10);
 
@@ -68,6 +59,15 @@ const Machine = () => {
 
   //Logique on/off
   const togglePower = () => {
+    if (isOn) {
+      setBalance(500);
+      setMiseInitale(10);
+      setCurrentBet(0);
+      setIsSpinning(false);
+      setBetPopupAmount(0);
+      setWinPopupAmount(0);
+      miseRef.current = 10;
+    }
     setIsOn(!isOn);
   };
 
@@ -77,7 +77,7 @@ const Machine = () => {
 
     imgs.forEach((img, i) => {
       const tl = gsap.timeline({
-        repeat: 3,
+        repeat: 4,
         paused: true,
         onRepeat: () => {
           const randomUrl = gsap.utils.random(imgUrls);
@@ -90,11 +90,12 @@ const Machine = () => {
 
       tl.set(img, {
         y: -420,
+        opacity: 1,
       });
 
       tl.to(img, {
         y: 600,
-        duration: 0.35,
+        duration: 0.3,
         ease: "none",
         stagger: 0.1,
       });
@@ -104,16 +105,19 @@ const Machine = () => {
 
   function showResults() {
     const imgs = document.querySelectorAll(".object");
-    gsap.set(imgs, { y: -420 });
+    timelines.current.forEach((tl) => tl.pause());
+    gsap.set(imgs, {
+      y: -420,
+    });
     gsap.to(imgs, {
       y: 0,
-      duration: 0.5,
+      duration: 0.4,
       ease: "elastic.out(1,0.5)",
       stagger: 0.12,
+      onComplete: () => {
+        setIsSpinning(false);
+      },
     });
-
-    setIsSpinning(false);
-
     calculateResults();
   }
 
@@ -161,23 +165,32 @@ const Machine = () => {
     const winAmount = mise * multipliers[matchedSymbol][matchNumber];
     console.log("WIN AMOUNT: " + winAmount);
 
+    setWinPopupAmount(winAmount);
+    setWinPopupTrigger((prev) => prev + 1);
     setBalance((prev) => prev + winAmount);
-    setPopupAmount(winAmount);
-    setPopupType("win");
-    setBetPopupTrigger((prev) => prev + 1);
   }
 
   function playAll() {
     if (!isOn || isSpinning) return;
+    if (miseInitale >= balance) {
+      const tl = gsap.timeline({ yoyo: true, repeat: 3 });
+
+      tl.to(".balance", {
+        color: "red",
+        duration: 0.32,
+        ease: "none",
+      });
+
+      return;
+    }
     setIsSpinning(true);
 
     const betAmount = miseInitale;
 
+    setBetPopupAmount(miseInitale);
+    setBetPopupTrigger((prev) => prev + 1);
     setBalance((prev) => prev - betAmount);
     setCurrentBet(betAmount);
-    setPopupAmount(miseInitale);
-    setPopupType("bet");
-    setBetPopupTrigger((prev) => prev + 1);
 
     miseRef.current = miseInitale;
 
@@ -193,6 +206,7 @@ const Machine = () => {
       } else {
         gsap.to(imgs, {
           y: 0,
+          opacity: 1,
           duration: 0.6,
           ease: "elastic.out(1,0.5)",
         });
@@ -225,10 +239,10 @@ const Machine = () => {
         diminuerMise={diminuerMise}
         balance={balance}
         currentBet={currentBet}
-        popupTrigger={betPopupTrigger}
-        popupAmount={popupAmount}
-        popupType={popupType}
-        displayPopup={displayPopup}
+        betPopupAmount={betPopupAmount}
+        betPopupTrigger={betPopupTrigger}
+        winPopupAmount={winPopupAmount}
+        winPopupTrigger={winPopupTrigger}
       />
     </>
   );

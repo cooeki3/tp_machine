@@ -8,21 +8,33 @@ const Compteurs = ({
   isOn,
   balance,
   currentBet,
-  popupTrigger,
-  popupAmount,
-  popupType,
+  betPopupAmount,
+  betPopupTrigger,
+  winPopupAmount,
+  winPopupTrigger,
 }) => {
   const [displayBetPopup, setDisplayBetPopup] = useState(false);
+  const [displayWinPopup, setDisplayWinPopup] = useState(false);
 
   useEffect(() => {
-    if (popupTrigger > 0) {
+    if (betPopupTrigger > 0) {
       setDisplayBetPopup(true);
       const timer = setTimeout(() => {
         setDisplayBetPopup(false);
       }, 800);
       return () => clearTimeout(timer);
     }
-  }, [popupTrigger]);
+  }, [betPopupTrigger]);
+
+  useEffect(() => {
+    if (winPopupTrigger > 0) {
+      setDisplayWinPopup(true);
+      const timer = setTimeout(() => {
+        setDisplayWinPopup(false);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [winPopupTrigger]);
 
   return (
     <div className={"compteurs-container " + (isOn ? " brightness-in" : "")}>
@@ -42,8 +54,13 @@ const Compteurs = ({
           <p className="balance-text">Balance: {balance}$</p>
 
           {displayBetPopup && (
-            <p className={`bet-popup ${popupType}`}>
-              {popupType === "win" ? `+${popupAmount}` : `-${popupAmount}`}$
+            <p className="bet-popup bet">-{betPopupAmount}$</p>
+          )}
+
+          {displayWinPopup && (
+            <p className={"bet-popup win"}>
+              {winPopupAmount > 0 && "+"}
+              {winPopupAmount}$
             </p>
           )}
         </div>
