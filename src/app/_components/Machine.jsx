@@ -2,6 +2,8 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useState, useRef, useEffect } from "react";
+import { useAudio } from "@/app/_contexts/AudioContext";
+
 
 import "./Machine.css";
 
@@ -45,6 +47,7 @@ const Machine = () => {
   const [isMiseMax, setIsMiseMax] = useState(false);
   //State Animation balance négative
   const [balanceAnimating, setBalanceAnimating] = useState(false);
+  const { changeSource, play } = useAudio(false);
 
   useEffect(() => {
     //Animation du popup de la mise quand le joueur appuie sur jouer
@@ -138,6 +141,7 @@ const Machine = () => {
       ease: "elastic.out(1,0.5)",
       stagger: 0.12,
     });
+    setIsSpinning(false);
     calculateResults();
   }
 
@@ -174,6 +178,11 @@ const Machine = () => {
   }
 
   function calculateMatch(matchNumber, matchedSymbol, mise) {
+    const tl = gsap.timeline();
+    tl.call(() => {
+      changeSource("/audio/casino.mp3", true);
+    });
+
     const multipliers = {
       coin: { 2: 1.25, 3: 2 },
       star: { 2: 1.5, 3: 5 },
@@ -185,8 +194,6 @@ const Machine = () => {
     setWinPopupMontant(winAmount);
     setWinPopupTrigger((prev) => prev + 1);
     setBalanceRestante((prev) => prev + winAmount);
-    setIsSpinning(false);
-    console.log("FALSE 189")
   }
 
   function playAll() {

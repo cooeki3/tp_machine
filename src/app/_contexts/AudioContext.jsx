@@ -7,11 +7,11 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 const audioContext = React.createContext({
   _v: 0,
   audio: null,
-  setSrc: (src, autoplay = true) => {},
+  setSrc: (src, autoplay = true) => { },
   ready: false,
   autoplay: false,
   stopCount: 0,
-  setStopCount: (val) => {},
+  setStopCount: (val) => { },
 });
 
 const AudioProvider = ({ children }) => {
@@ -24,6 +24,7 @@ const AudioProvider = ({ children }) => {
   useEffect(() => {
     if (!audioRef.current) {
       audioRef.current = new Audio();
+      audioRef.current.volume = 0.3;
     }
   }, []);
 
