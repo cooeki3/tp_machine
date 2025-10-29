@@ -275,4 +275,3 @@ const Machine = () => {
 };
 
 export default Machine;
-ok
