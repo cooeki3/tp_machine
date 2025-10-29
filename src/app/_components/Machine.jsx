@@ -2,7 +2,6 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useState, useRef, useEffect } from "react";
-import { GSDevTools } from "gsap/GSDevTools";
 
 import "./Machine.css";
 
@@ -11,10 +10,12 @@ import Jeu from "./Jeu.jsx";
 import Compteurs from "./Compteurs.jsx";
 import Boutons from "./Boutons.jsx";
 
-gsap.registerPlugin(useGSAP, GSDevTools);
+gsap.registerPlugin(useGSAP);
 
 const Machine = () => {
   const timelines = useRef([]);
+  const initialBet = 10;
+  const initialBalance = 500;
 
   var objects = [
     { url: "png/machine_coin.png" },
@@ -25,11 +26,11 @@ const Machine = () => {
   var imgUrls = objects.map((image) => image.url);
 
   //State Bet
-  const [miseInitale, setMiseInitale] = useState(10);
+  const [miseInitale, setMiseInitale] = useState(initialBet);
   //State On/Off
   const [isOn, setIsOn] = useState(false);
   //State Balance
-  const [balance, setBalance] = useState(9);
+  const [balance, setBalance] = useState(initialBalance);
   //State lors que ca spin
   const [isSpinning, setIsSpinning] = useState(false);
   //Mise
@@ -43,6 +44,7 @@ const Machine = () => {
 
   const [isMaxBet, setIsMaxBet] = useState(false);
   const [balanceAnimating, setBalanceAnimating] = useState(false);
+
   useEffect(() => {
     if (betPopupTrigger > 0) {
       setBetPopupTrigger(true);
@@ -64,7 +66,6 @@ const Machine = () => {
 
   //Logique mise
   const augmenterMise = () => {
-    if (miseInitale < 100) setMiseInitale(miseInitale + 5);
     if (miseInitale < 100) {
       setMiseInitale(miseInitale + 5);
     } else {
@@ -80,9 +81,9 @@ const Machine = () => {
   //Logique on/off
   const togglePower = () => {
     if (isOn) {
-      setBalance(balance);
-      setMiseInitale(10);
-      setCurrentBet(0);
+      setBalance(initialBalance);
+      setMiseInitale(initialBet);
+      // setCurrentBet(10);
       setIsSpinning(false);
       setBetPopupAmount(0);
       setWinPopupAmount(0);
@@ -201,19 +202,23 @@ const Machine = () => {
       });
 
       return;
+    } else if (isSpinning) {
+      return;
+
+    } else {
+      setIsSpinning(true);
+
+      const betAmount = miseInitale;
+
+      setBetPopupAmount(miseInitale);
+      setBetPopupTrigger((prev) => prev + 1);
+      setBalance((prev) => prev - betAmount);
+      setCurrentBet(betAmount);
+
+      miseRef.current = miseInitale;
+
+      timelines.current.forEach((tl) => tl.restart());
     }
-    setIsSpinning(true);
-
-    const betAmount = miseInitale;
-
-    setBetPopupAmount(miseInitale);
-    setBetPopupTrigger((prev) => prev + 1);
-    setBalance((prev) => prev - betAmount);
-    setCurrentBet(betAmount);
-
-    miseRef.current = miseInitale;
-
-    timelines.current.forEach((tl) => tl.restart());
   }
 
   useGSAP(
@@ -228,10 +233,11 @@ const Machine = () => {
           opacity: 1,
           duration: 0.6,
           ease: "elastic.out(1,0.5)",
+          onComplete: () =>
+            setIsSpinning(false)
         });
 
         timelines.current.forEach((tl) => tl.pause());
-        setIsSpinning(false);
       }
     },
     { dependencies: [isOn] }
