@@ -1,4 +1,5 @@
 import "./Compteurs.css";
+import { useState, useEffect } from "react";
 
 const Compteurs = ({
   miseInitale,
@@ -6,8 +7,21 @@ const Compteurs = ({
   diminuerMise,
   isOn,
   balance,
-  lastChange,
+  currentBet,
+  betPopupTrigger,
 }) => {
+  const [displayBetPopup, setDisplayBetPopup] = useState(false);
+
+  useEffect(() => {
+    if (betPopupTrigger > 0) {
+      setDisplayBetPopup(true);
+      const timer = setTimeout(() => {
+        setDisplayBetPopup(false);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [betPopupTrigger]);
+
   return (
     <div className={"compteurs-container " + (isOn ? " brightness-in" : "")}>
       {isOn && (
@@ -24,12 +38,8 @@ const Compteurs = ({
       {isOn && (
         <div className="balance fade-in">
           <p className="balance-text">Balance: {balance}$</p>
-          {/* Pop up qui affiche si win ou lose et le montant */}
-          {lastChange !== 0 && (
-            <p className={`balance-change ${lastChange > 0 ? "win" : "lose"}`}>
-              {lastChange > 0 ? "+" + lastChange + "$" : "" + lastChange + "$"}
-            </p>
-          )}
+
+          {displayBetPopup && <p className="bet-popup">-{currentBet}$</p>}
         </div>
       )}
     </div>
