@@ -194,7 +194,7 @@ const Machine = () => {
 
   function playAll() {
     if (!isOn || isSpinning) return;
-    if (miseInitale >= balance) {
+    if (miseInitale > balance) {
       const tl = gsap.timeline({ yoyo: true, repeat: 3 });
 
       tl.to(".balance", {
