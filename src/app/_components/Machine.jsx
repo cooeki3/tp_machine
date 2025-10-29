@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { CustomEase } from "gsap/all";
 import { useGSAP } from "@gsap/react";
@@ -40,8 +40,20 @@ const Machine = () => {
   //Mise
   const [currentBet, setCurrentBet] = useState(0);
   //State pour trigger le popup
+  const [popupAmount, setPopupAmount] = useState(0);
+  const [popupType, setPopupType] = useState("");
   const [betPopupTrigger, setBetPopupTrigger] = useState(0);
-  //state current mise
+  const [displayPopup, setDisplayPopup] = useState(false);
+
+  useEffect(() => {
+    if (betPopupTrigger > 0) {
+      setDisplayPopup(true);
+      const timer = setTimeout(() => {
+        setDisplayPopup(false);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [betPopupTrigger]);
 
   const miseRef = useRef(10);
 
@@ -148,6 +160,11 @@ const Machine = () => {
 
     const winAmount = mise * multipliers[matchedSymbol][matchNumber];
     console.log("WIN AMOUNT: " + winAmount);
+
+    setBalance((prev) => prev + winAmount);
+    setPopupAmount(winAmount);
+    setPopupType("win");
+    setBetPopupTrigger((prev) => prev + 1);
   }
 
   function playAll() {
@@ -158,6 +175,8 @@ const Machine = () => {
 
     setBalance((prev) => prev - betAmount);
     setCurrentBet(betAmount);
+    setPopupAmount(miseInitale);
+    setPopupType("bet");
     setBetPopupTrigger((prev) => prev + 1);
 
     miseRef.current = miseInitale;
@@ -206,7 +225,10 @@ const Machine = () => {
         diminuerMise={diminuerMise}
         balance={balance}
         currentBet={currentBet}
-        betPopupTrigger={betPopupTrigger}
+        popupTrigger={betPopupTrigger}
+        popupAmount={popupAmount}
+        popupType={popupType}
+        displayPopup={displayPopup}
       />
     </>
   );
