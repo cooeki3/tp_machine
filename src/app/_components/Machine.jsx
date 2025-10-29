@@ -2,7 +2,6 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useState, useRef, useEffect } from "react";
-import { GSDevTools } from "gsap/GSDevTools";
 
 import "./Machine.css";
 
@@ -11,10 +10,12 @@ import Jeu from "./Jeu.jsx";
 import Compteurs from "./Compteurs.jsx";
 import Boutons from "./Boutons.jsx";
 
-gsap.registerPlugin(useGSAP, GSDevTools);
+gsap.registerPlugin(useGSAP);
 
 const Machine = () => {
   const timelines = useRef([]);
+  const initialBet = 10;
+  const initialBalance = 500;
 
   var objects = [
     { url: "png/machine_coin.png" },
@@ -24,6 +25,8 @@ const Machine = () => {
 
   var imgUrls = objects.map((image) => image.url);
 
+  //State Bet
+  const [miseInitale, setMiseInitale] = useState(initialBet);
   //State On/Off
   const [isOn, setIsOn] = useState(false);
   //State Mise initiale
@@ -44,6 +47,7 @@ const Machine = () => {
   const [isMiseMax, setIsMaxBet] = useState(false);
   //State Animation balance négative
   const [balanceAnimating, setBalanceAnimating] = useState(false);
+
 
   useEffect(() => {
     //Animation du popup de la mise quand le joueur appuie sur jouer
@@ -69,7 +73,6 @@ const Machine = () => {
 
   //Logique mise
   const augmenterMise = () => {
-    if (miseInitale < 100) setMiseInitale(miseInitale + 5);
     if (miseInitale < 100) {
       setMiseInitale(miseInitale + 5);
     } else {
@@ -85,8 +88,9 @@ const Machine = () => {
   //Logique on/off
   const togglePower = () => {
     if (isOn) {
-      setBalanceRestante(balanceRestante);
-      setMiseInitale(10);
+      setBalance(initialBalance);
+      setMiseInitale(initialBet);
+      // setCurrentBet(10);
       setIsSpinning(false);
       setBetPopupMontant(0);
       setWinPopupMontant(0);
@@ -205,18 +209,22 @@ const Machine = () => {
       });
 
       return;
-    }
-    setIsSpinning(true);
+    } else if (isSpinning) {
+      return;
 
-    const betAmount = miseInitale;
+    } else {
+      setIsSpinning(true);
+
+      const betAmount = miseInitale;
 
     setBetPopupMontant(miseInitale);
     setMisePopupTrigger((prev) => prev + 1);
     setBalanceRestante((prev) => prev - betAmount);
 
-    miseRef.current = miseInitale;
+      miseRef.current = miseInitale;
 
-    timelines.current.forEach((tl) => tl.restart());
+      timelines.current.forEach((tl) => tl.restart());
+    }
   }
 
   useGSAP(
@@ -231,10 +239,11 @@ const Machine = () => {
           opacity: 1,
           duration: 0.6,
           ease: "elastic.out(1,0.5)",
+          onComplete: () =>
+            setIsSpinning(false)
         });
 
         timelines.current.forEach((tl) => tl.pause());
-        setIsSpinning(false);
       }
     },
     { dependencies: [isOn] }
