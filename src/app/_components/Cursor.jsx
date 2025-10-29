@@ -1,5 +1,3 @@
-//Pour changer le curseur uwu!
-
 "use client";
 import { useEffect } from "react";
 
