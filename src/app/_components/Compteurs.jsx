@@ -7,26 +7,25 @@ const Compteurs = ({
   augmenterMise,
   diminuerMise,
   isOn,
-  balance,
-  currentBet,
-  betPopupAmount,
-  betPopupTrigger,
-  winPopupAmount,
+  balanceRestante,
+  misePopupMontant,
+  misePopupTrigger,
+  winPopupMontant,
   winPopupTrigger,
-  isMaxBet,
+  isMiseMax,
 }) => {
   const [displayBetPopup, setDisplayBetPopup] = useState(false);
   const [displayWinPopup, setDisplayWinPopup] = useState(false);
 
   useEffect(() => {
-    if (betPopupTrigger > 0) {
+    if (misePopupTrigger > 0) {
       setDisplayBetPopup(true);
       const timer = setTimeout(() => {
         setDisplayBetPopup(false);
       }, 800);
       return () => clearTimeout(timer);
     }
-  }, [betPopupTrigger]);
+  }, [misePopupTrigger]);
 
   useEffect(() => {
     if (winPopupTrigger > 0) {
@@ -44,7 +43,7 @@ const Compteurs = ({
         <div className="btn-mise fade-in">
           <button className="boutons-compteurs" onClick={diminuerMise}></button>
           <p className="btn-mise-text">Mise: {miseInitale}$</p>
-          {isMaxBet && <p className="mise-max">MAX BET!</p>}
+          {isMiseMax && <p className="mise-max">MISE MAX!</p>}
 
           <button
             className="boutons-compteurs"
@@ -55,16 +54,16 @@ const Compteurs = ({
 
       {isOn && (
         <div className="balance fade-in">
-          <p className="balance-text">Balance: {balance}$</p>
+          <p className="balance-text">Balance: {balanceRestante}$</p>
 
           {displayBetPopup && (
-            <p className="bet-popup bet">-{betPopupAmount}$</p>
+            <p className="bet-popup bet">-{misePopupMontant}$</p>
           )}
 
           {displayWinPopup && (
             <p className={"bet-popup win"}>
-              {winPopupAmount > 0 && "+"}
-              {winPopupAmount}$
+              {winPopupMontant > 0 && "+"}
+              {winPopupMontant}$
             </p>
           )}
         </div>

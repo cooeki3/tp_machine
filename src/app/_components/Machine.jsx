@@ -24,41 +24,46 @@ const Machine = () => {
 
   var imgUrls = objects.map((image) => image.url);
 
-  //State Bet
-  const [miseInitale, setMiseInitale] = useState(10);
   //State On/Off
   const [isOn, setIsOn] = useState(false);
-  //State Balance
-  const [balance, setBalance] = useState(9);
-  //State lors que ca spin
+  //State Mise initiale
+  const [miseInitale, setMiseInitale] = useState(10);
+  //State Balance restante
+  const [balanceRestante, setBalanceRestante] = useState(500);
+  //State Spin des symboles
   const [isSpinning, setIsSpinning] = useState(false);
-  //Mise
-  const [currentBet, setCurrentBet] = useState(0);
-  //States pour trigger le popup
-  const [betPopupAmount, setBetPopupAmount] = useState(0);
-  const [betPopupTrigger, setBetPopupTrigger] = useState(0);
-
-  const [winPopupAmount, setWinPopupAmount] = useState(0);
+  //State Trigger mise popup
+  const [misePopupTrigger, setMisePopupTrigger] = useState(0);
+  //State Mise popup montant
+  const [misePopupMontant, setBetPopupMontant] = useState(0);
+  //State Win popup montant
+  const [winPopupMontant, setWinPopupMontant] = useState(0);
+  //State Trigger win popup
   const [winPopupTrigger, setWinPopupTrigger] = useState(0);
-
-  const [isMaxBet, setIsMaxBet] = useState(false);
+  //State Mise max
+  const [isMiseMax, setIsMaxBet] = useState(false);
+  //State Animation balance négative
   const [balanceAnimating, setBalanceAnimating] = useState(false);
+
   useEffect(() => {
-    if (betPopupTrigger > 0) {
-      setBetPopupTrigger(true);
+    //Animation du popup de la mise quand le joueur appuie sur jouer
+    if (misePopupTrigger > 0) {
+      setMisePopupTrigger(true);
       const timer = setTimeout(() => {
-        setBetPopupTrigger(false);
+        setMisePopupTrigger(false);
       }, 800);
       return () => clearTimeout(timer);
     }
-    if (isMaxBet) {
+
+    //Animation lorsque la mise est au MAX
+    if (isMiseMax) {
       gsap.fromTo(
         ".mise-max",
         { scale: 0, opacity: 0 },
         { scale: 1.5, opacity: 1, duration: 0.6, ease: "elastic.out(1, 0.5)" }
       );
     }
-  }, [betPopupTrigger, isMaxBet]);
+  }, [misePopupTrigger, isMiseMax]);
 
   const miseRef = useRef(10);
 
@@ -80,12 +85,11 @@ const Machine = () => {
   //Logique on/off
   const togglePower = () => {
     if (isOn) {
-      setBalance(balance);
+      setBalanceRestante(balanceRestante);
       setMiseInitale(10);
-      setCurrentBet(0);
       setIsSpinning(false);
-      setBetPopupAmount(0);
-      setWinPopupAmount(0);
+      setBetPopupMontant(0);
+      setWinPopupMontant(0);
       miseRef.current = 10;
     }
     setIsOn(!isOn);
@@ -182,13 +186,13 @@ const Machine = () => {
 
     const winAmount = mise * multipliers[matchedSymbol][matchNumber];
 
-    setWinPopupAmount(winAmount);
+    setWinPopupMontant(winAmount);
     setWinPopupTrigger((prev) => prev + 1);
-    setBalance((prev) => prev + winAmount);
+    setBalanceRestante((prev) => prev + winAmount);
   }
 
   function playAll() {
-    if (miseInitale > balance && !balanceAnimating) {
+    if (miseInitale > balanceRestante && !balanceAnimating) {
       const tl = gsap.timeline({
         yoyo: true,
         repeat: 3,
@@ -206,10 +210,9 @@ const Machine = () => {
 
     const betAmount = miseInitale;
 
-    setBetPopupAmount(miseInitale);
-    setBetPopupTrigger((prev) => prev + 1);
-    setBalance((prev) => prev - betAmount);
-    setCurrentBet(betAmount);
+    setBetPopupMontant(miseInitale);
+    setMisePopupTrigger((prev) => prev + 1);
+    setBalanceRestante((prev) => prev - betAmount);
 
     miseRef.current = miseInitale;
 
@@ -256,13 +259,12 @@ const Machine = () => {
         miseInitale={miseInitale}
         augmenterMise={augmenterMise}
         diminuerMise={diminuerMise}
-        balance={balance}
-        currentBet={currentBet}
-        betPopupAmount={betPopupAmount}
-        betPopupTrigger={betPopupTrigger}
-        winPopupAmount={winPopupAmount}
+        balanceRestante={balanceRestante}
+        misePopupMontant={misePopupMontant}
+        misePopupTrigger={misePopupTrigger}
+        winPopupMontant={winPopupMontant}
         winPopupTrigger={winPopupTrigger}
-        isMaxBet={isMaxBet}
+        isMiseMax={isMiseMax}
       />
     </>
   );
