@@ -44,6 +44,7 @@ const Machine = () => {
   const [popupType, setPopupType] = useState("");
   const [betPopupTrigger, setBetPopupTrigger] = useState(0);
   const [displayPopup, setDisplayPopup] = useState(false);
+  const [isMaxBet, setIsMaxBet] = useState(false);
 
   useEffect(() => {
     if (betPopupTrigger > 0) {
@@ -53,13 +54,26 @@ const Machine = () => {
       }, 800);
       return () => clearTimeout(timer);
     }
-  }, [betPopupTrigger]);
+    if (isMaxBet) {
+      gsap.fromTo(
+        ".mise-max",
+        { scale: 0, opacity: 0 },
+        { scale: 1.5, opacity: 1, duration: 0.6, ease: "elastic.out(1, 0.5)" }
+      );
+    }
+  }, [betPopupTrigger][isMaxBet]);
 
   const miseRef = useRef(10);
 
   //Logique mise
   const augmenterMise = () => {
     if (miseInitale < 100) setMiseInitale(miseInitale + 5);
+    if (miseInitale < 100) {
+      setMiseInitale(miseInitale + 5);
+    } else {
+      setIsMaxBet(true);
+      setTimeout(() => setIsMaxBet(false), 1500);
+    }
   };
 
   const diminuerMise = () => {
@@ -150,7 +164,6 @@ const Machine = () => {
   }
 
   function calculateMatch(matchNumber, matchedSymbol, mise) {
-
     const multipliers = {
       coin: { 2: 1.25, 3: 2 },
       star: { 2: 1.5, 3: 5 },
@@ -227,6 +240,7 @@ const Machine = () => {
         popupAmount={popupAmount}
         popupType={popupType}
         displayPopup={displayPopup}
+        isMaxBet={isMaxBet}
       />
     </>
   );
