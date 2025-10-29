@@ -18,7 +18,7 @@
   top: 130;
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 20px;
 }
 
 .fade-in {
@@ -39,5 +39,33 @@
 @keyframes brightness-in {
   to {
     filter: brightness(1);
+  }
+}
+
+.legende-symbols {
+  width: 7%;
+}
+
+.legende-multipliers {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.jackpot {
+  font-weight: 900;
+  color: gold;
+  text-shadow: 0 0 10px #ffcc00, 0 0 20px #ff9900;
+  animation: scaleAnim 1.2s infinite alternate;
+  letter-spacing: 5px;
+  margin-left: 15px;
+}
+
+@keyframes scaleAnim {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
   }
 }

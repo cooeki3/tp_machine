@@ -12,6 +12,7 @@ const Compteurs = ({
   betPopupTrigger,
   winPopupAmount,
   winPopupTrigger,
+  isMaxBet,
 }) => {
   const [displayBetPopup, setDisplayBetPopup] = useState(false);
   const [displayWinPopup, setDisplayWinPopup] = useState(false);
@@ -42,6 +43,8 @@ const Compteurs = ({
         <div className="btn-mise fade-in">
           <button className="boutons-compteurs" onClick={diminuerMise}></button>
           <p className="btn-mise-text">Mise: {miseInitale}$</p>
+          {isMaxBet && <p className="mise-max">MAX BET!</p>}
+
           <button
             className="boutons-compteurs"
             onClick={augmenterMise}

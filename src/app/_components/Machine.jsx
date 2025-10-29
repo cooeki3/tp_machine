@@ -45,12 +45,37 @@ const Machine = () => {
 
   const [winPopupAmount, setWinPopupAmount] = useState(0);
   const [winPopupTrigger, setWinPopupTrigger] = useState(0);
+  const [displayPopup, setDisplayPopup] = useState(false);
+  const [isMaxBet, setIsMaxBet] = useState(false);
+
+  useEffect(() => {
+    if (betPopupTrigger > 0) {
+      setDisplayPopup(true);
+      const timer = setTimeout(() => {
+        setDisplayPopup(false);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+    if (isMaxBet) {
+      gsap.fromTo(
+        ".mise-max",
+        { scale: 0, opacity: 0 },
+        { scale: 1.5, opacity: 1, duration: 0.6, ease: "elastic.out(1, 0.5)" }
+      );
+    }
+  }, [betPopupTrigger][isMaxBet]);
 
   const miseRef = useRef(10);
 
   //Logique mise
   const augmenterMise = () => {
     if (miseInitale < 100) setMiseInitale(miseInitale + 5);
+    if (miseInitale < 100) {
+      setMiseInitale(miseInitale + 5);
+    } else {
+      setIsMaxBet(true);
+      setTimeout(() => setIsMaxBet(false), 1500);
+    }
   };
 
   const diminuerMise = () => {
@@ -154,16 +179,13 @@ const Machine = () => {
   }
 
   function calculateMatch(matchNumber, matchedSymbol, mise) {
-    console.log("MISE: " + mise);
-
     const multipliers = {
-      coin: { 2: 1.25, 3: 5 },
-      star: { 2: 2, 3: 8 },
-      galaxy: { 2: 5, 3: 20 },
+      coin: { 2: 1.25, 3: 2 },
+      star: { 2: 1.5, 3: 5 },
+      galaxy: { 2: 1.8, 3: 20 },
     };
 
     const winAmount = mise * multipliers[matchedSymbol][matchNumber];
-    console.log("WIN AMOUNT: " + winAmount);
 
     setWinPopupAmount(winAmount);
     setWinPopupTrigger((prev) => prev + 1);
@@ -243,6 +265,7 @@ const Machine = () => {
         betPopupTrigger={betPopupTrigger}
         winPopupAmount={winPopupAmount}
         winPopupTrigger={winPopupTrigger}
+        isMaxBet={isMaxBet}
       />
     </>
   );
