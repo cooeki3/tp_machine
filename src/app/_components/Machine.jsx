@@ -37,6 +37,8 @@ const Machine = () => {
   const [balance, setBalance] = useState(500);
   //State Dernier changement (balance)
   const [lastChange, setLastChange] = useState(0);
+  //State lors que ca spin
+  const [isSpinning, setIsSpinning] = useState(false);
 
   //Logique bet
   const augmenterMise = () => {
@@ -69,44 +71,67 @@ const Machine = () => {
         },
       });
 
-      tl.set(img, { y: -420 });
-      tl.to(img, { y: 600, duration: 0.35, ease: "none", stagger: 0.1 });
+      tl.set(img, {
+        y: -420,
+      });
+
+      tl.to(img, {
+        y: 600,
+        duration: 0.35,
+        ease: "none",
+        stagger: 0.1,
+      });
       timelines.current.push(tl);
     });
   });
 
-  function showResults() {}
+  function showResults() {
+    const img = document.querySelectorAll(".object");
+    gsap.set(img, { y: -420 });
+    gsap.to(img, {
+      y: 0,
+      duration: 0.5,
+      ease: "elastic.out(1,0.5)",
+      stagger: 0.12,
+    });
+
+    setIsSpinning(false);
+    console.log("is spining false");
+  }
 
   function playAll() {
-    if (!isOn) return;
+    if (!isOn || isSpinning) return;
+    setIsSpinning(true);
 
     setBalance((prev) => prev - miseInitale);
     setLastChange(-miseInitale);
-
-    timelines.current.forEach((tl) => tl.play());
+    timelines.current.forEach((tl) => tl.restart());
   }
 
-  useGSAP(() => {
-    const imgs = document.querySelectorAll(".object");
-    if (!isOn) {
-      gsap.to(imgs, {
-        y: -450,
-        duration: 0.3,
-        ease: "power3.out",
-      });
-      timelines.current.forEach((tl) => tl.pause());
-    } else {
-      gsap.to(imgs, {
-        y: 0,
-        duration: 0.6,
-        ease: "elastic.out(1,0.5)",
-      });
-      timelines.current.forEach((tl) => tl.pause());
-    }
-    setTimeout(() => {
-      setLastChange(0);
-    }, 1000);
-  });
+  useGSAP(
+    () => {
+      const imgs = document.querySelectorAll(".object");
+      if (!isOn) {
+        gsap.set(imgs, {
+          y: -450,
+        });
+        timelines.current.forEach((tl) => tl.pause());
+      } else {
+        gsap.to(imgs, {
+          y: 0,
+          duration: 0.6,
+          ease: "elastic.out(1,0.5)",
+        });
+
+        timelines.current.forEach((tl) => tl.pause());
+        setIsSpinning(false);
+      }
+      setTimeout(() => {
+        setLastChange(0);
+      }, 1000);
+    },
+    { dependencies: [isOn] }
+  );
 
   return (
     <>
