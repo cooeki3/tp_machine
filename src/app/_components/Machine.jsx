@@ -150,16 +150,14 @@ const Machine = () => {
   }
 
   function calculateMatch(matchNumber, matchedSymbol, mise) {
-    console.log("MISE: " + mise);
 
     const multipliers = {
-      coin: { 2: 1.25, 3: 5 },
-      star: { 2: 2, 3: 8 },
-      galaxy: { 2: 5, 3: 20 },
+      coin: { 2: 1.25, 3: 2 },
+      star: { 2: 1.5, 3: 5 },
+      galaxy: { 2: 1.8, 3: 20 },
     };
 
     const winAmount = mise * multipliers[matchedSymbol][matchNumber];
-    console.log("WIN AMOUNT: " + winAmount);
 
     setBalance((prev) => prev + winAmount);
     setPopupAmount(winAmount);
