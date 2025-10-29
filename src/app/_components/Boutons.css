@@ -27,3 +27,8 @@
 .allumer {
   background-image: url("/png/btnBleuOff.png");
 }
+
+.on {
+  filter: brightness(2.5);
+  transition: all 0.5s;
+}
