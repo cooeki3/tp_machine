@@ -3,6 +3,8 @@
 "use client";
 import { useEffect } from "react";
 
+import "./Cursor.css";
+
 export default function CursorProvider({ children }) {
   useEffect(() => {
     const cursor = document.getElementById("cursor");

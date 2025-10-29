@@ -1,13 +1,9 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
-import { CustomEase } from "gsap/all";
 import { useGSAP } from "@gsap/react";
+import { useState, useRef, useEffect } from "react";
 import { GSDevTools } from "gsap/GSDevTools";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
 
-import useLenis from "../_hooks/useLenis.jsx";
 import "./Machine.css";
 
 import Legende from "./Legende.jsx";
@@ -15,10 +11,9 @@ import Jeu from "./Jeu.jsx";
 import Compteurs from "./Compteurs.jsx";
 import Boutons from "./Boutons.jsx";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger, GSDevTools, SplitText, CustomEase);
+gsap.registerPlugin(useGSAP, GSDevTools);
 
 const Machine = () => {
-  useLenis();
   const timelines = useRef([]);
 
   var objects = [
@@ -34,7 +29,7 @@ const Machine = () => {
   //State On/Off
   const [isOn, setIsOn] = useState(false);
   //State Balance
-  const [balance, setBalance] = useState(500);
+  const [balance, setBalance] = useState(9);
   //State lors que ca spin
   const [isSpinning, setIsSpinning] = useState(false);
   //Mise
@@ -45,14 +40,14 @@ const Machine = () => {
 
   const [winPopupAmount, setWinPopupAmount] = useState(0);
   const [winPopupTrigger, setWinPopupTrigger] = useState(0);
-  const [displayPopup, setDisplayPopup] = useState(false);
-  const [isMaxBet, setIsMaxBet] = useState(false);
 
+  const [isMaxBet, setIsMaxBet] = useState(false);
+  const [balanceAnimating, setBalanceAnimating] = useState(false);
   useEffect(() => {
     if (betPopupTrigger > 0) {
-      setDisplayPopup(true);
+      setBetPopupTrigger(true);
       const timer = setTimeout(() => {
-        setDisplayPopup(false);
+        setBetPopupTrigger(false);
       }, 800);
       return () => clearTimeout(timer);
     }
@@ -63,7 +58,7 @@ const Machine = () => {
         { scale: 1.5, opacity: 1, duration: 0.6, ease: "elastic.out(1, 0.5)" }
       );
     }
-  }, [betPopupTrigger][isMaxBet]);
+  }, [betPopupTrigger, isMaxBet]);
 
   const miseRef = useRef(10);
 
@@ -85,7 +80,7 @@ const Machine = () => {
   //Logique on/off
   const togglePower = () => {
     if (isOn) {
-      setBalance(500);
+      setBalance(balance);
       setMiseInitale(10);
       setCurrentBet(0);
       setIsSpinning(false);
@@ -193,14 +188,16 @@ const Machine = () => {
   }
 
   function playAll() {
-    if (!isOn || isSpinning) return;
-    if (miseInitale > balance) {
-      const tl = gsap.timeline({ yoyo: true, repeat: 3 });
+    if (miseInitale > balance && !balanceAnimating) {
+      const tl = gsap.timeline({
+        yoyo: true,
+        repeat: 3,
+        onComplete: () => setBalanceAnimating(false),
+      });
 
       tl.to(".balance", {
         color: "red",
         duration: 0.32,
-        ease: "none",
       });
 
       return;

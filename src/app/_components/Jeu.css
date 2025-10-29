@@ -26,13 +26,14 @@
   filter: brightness(0.5);
 }
 
+/* ===== Cadre Jaune Jeu (Droite) ===== */
 .jeuCadre {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 1218.9488px;
-  height: 781.6846px;
+  width: 1218px;
+  height: 781px;
   background-image: url("/png/jeuCadre.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -42,6 +43,7 @@
   filter: brightness(0.5);
 }
 
+/* ===== Coins, Stars, Galaxies ===== */
 .object {
   width: 200px;
   height: 200px;

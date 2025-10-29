@@ -1,5 +1,6 @@
-import "./Compteurs.css";
 import { useState, useEffect } from "react";
+
+import "./Compteurs.css";
 
 const Compteurs = ({
   miseInitale,

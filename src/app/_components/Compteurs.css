@@ -91,11 +91,10 @@
 .bet {
   color: #ff0000;
 }
-
+/* ===== Win Popup ===== */
 .win {
   color: rgb(102, 255, 0);
 }
-
 
 @keyframes popUp {
   0% {
@@ -111,7 +110,7 @@
     transform: translateY(-15px) scale(1);
   }
 }
-
+/* ===== Max Bet Popup ===== */
 .mise-max {
   position: absolute;
   bottom: 70%;
