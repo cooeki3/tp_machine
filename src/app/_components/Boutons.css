@@ -29,8 +29,8 @@
 }
 
 .on {
-  filter: brightness(2);
-  transition: all 0.5s;
+  filter: brightness(1.67);
+  transition: opacity 0.5s, filter 0.2s;
 }
 
 .fade-in {

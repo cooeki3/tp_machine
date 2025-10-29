@@ -137,9 +137,6 @@ const Machine = () => {
       duration: 0.4,
       ease: "elastic.out(1,0.5)",
       stagger: 0.12,
-      onComplete: () => {
-        setIsSpinning(false);
-      },
     });
     calculateResults();
   }
@@ -188,10 +185,13 @@ const Machine = () => {
     setWinPopupMontant(winAmount);
     setWinPopupTrigger((prev) => prev + 1);
     setBalanceRestante((prev) => prev + winAmount);
+    setIsSpinning(false);
+    console.log("FALSE 189")
   }
 
   function playAll() {
     if (miseInitale > balanceRestante && !balanceAnimating) {
+      setbalanceAnimating(true);
       const tl = gsap.timeline({
         yoyo: true,
         repeat: 3,
@@ -207,12 +207,11 @@ const Machine = () => {
     } else if (isSpinning) {
       return;
     } else {
-
+      setIsSpinning(true);
+      console.log("TRUE 210")
       const betAmount = miseInitale;
-
       setBetPopupMontant(miseInitale);
       timelines.current.forEach((tl) => tl.restart());
-      setIsSpinning(true);
       setMisePopupTrigger((prev) => prev + 1);
       setBalanceRestante((prev) => prev - betAmount);
 
@@ -226,20 +225,43 @@ const Machine = () => {
       if (!isOn) {
         timelines.current.forEach((tl) => tl.pause());
         gsap.set(imgs, { y: -450, overwrite: "auto" });
+        setIsSpinning(false)
+        console.log("FALSE 228")
       } else {
         gsap.to(imgs, {
           y: 0,
           opacity: 1,
           duration: 0.6,
           ease: "elastic.out(1,0.5)",
-          onComplete: () => setIsSpinning(false),
+          onComplete: () => {
+            setIsSpinning(false)
+          }
         });
+        console.log("FALSE 239")
 
         timelines.current.forEach((tl) => tl.pause());
       }
     },
     { dependencies: [isOn] }
   );
+
+  //Bouton brightness Jouer
+  useGSAP(() => {
+    if (isSpinning) {
+      gsap.to(".jouer", {
+        filter: "brightness(0.8)",
+        ease: "none",
+        duration: 0
+      });
+    } else {
+      gsap.to(".jouer", {
+        filter: "brightness(2)",
+        ease: "none",
+        duration: 0
+      });
+    }
+  }, [isSpinning])
+
 
   return (
     <>
