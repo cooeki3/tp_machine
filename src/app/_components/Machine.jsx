@@ -37,11 +37,12 @@ const Machine = () => {
   const [balance, setBalance] = useState(500);
   //State lors que ca spin
   const [isSpinning, setIsSpinning] = useState(false);
+  //Mise
   const [currentBet, setCurrentBet] = useState(0);
   //State pour trigger le popup
-  const [betPopupTrigger, setBetPopupTrigger] = useState(0); // NEW
+  const [betPopupTrigger, setBetPopupTrigger] = useState(0);
 
-  //Logique bet
+  //Logique mise
   const augmenterMise = () => {
     if (miseInitale < 100) setMiseInitale(miseInitale + 5);
   };
@@ -104,9 +105,13 @@ const Machine = () => {
     if (!isOn || isSpinning) return;
     setIsSpinning(true);
 
-    setCurrentBet(miseInitale);
-    setBetPopupTrigger((prev) => prev + 1); // NEW - Trigger le popup
-    setBalance((prev) => prev - miseInitale);
+    const betAmount = miseInitale; // Capture the value first
+
+    setBalance((prev) => prev - betAmount);
+    setCurrentBet(betAmount);
+    setBetPopupTrigger((prev) => prev + 1);
+
+    console.log("Bet placed:", betAmount); // Debug log
     timelines.current.forEach((tl) => tl.restart());
   }
 
@@ -150,8 +155,8 @@ const Machine = () => {
         augmenterMise={augmenterMise}
         diminuerMise={diminuerMise}
         balance={balance}
-        currentBet={currentBet} // NEW
-        betPopupTrigger={betPopupTrigger} // NEW
+        currentBet={currentBet}
+        betPopupTrigger={betPopupTrigger}
       />
     </>
   );

@@ -7,7 +7,6 @@ const Compteurs = ({
   diminuerMise,
   isOn,
   balance,
-  lastChange,
   currentBet,
   betPopupTrigger,
 }) => {
@@ -39,20 +38,8 @@ const Compteurs = ({
       {isOn && (
         <div className="balance fade-in">
           <p className="balance-text">Balance: {balance}$</p>
-          
-          {/* Pop up for bet amount */}
-          {displayBetPopup && (
-            <p className="bet-popup">
-              Mise: {currentBet}$
-            </p>
-          )}
-          
-          {/* Pop up qui affiche si win ou lose et le montant */}
-          {lastChange !== 0 && (
-            <p className={`balance-change ${lastChange > 0 ? "win" : "lose"}`}>
-              {lastChange > 0 ? "+" + lastChange + "$" : "" + lastChange + "$"}
-            </p>
-          )}
+
+          {displayBetPopup && <p className="bet-popup">-{currentBet}$</p>}
         </div>
       )}
     </div>
