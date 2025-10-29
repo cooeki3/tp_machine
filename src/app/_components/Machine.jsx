@@ -87,8 +87,6 @@ const Machine = () => {
     if (isOn) {
       setBalanceRestante(initialBalance);
       setMiseInitale(initialBet);
-      // setCurrentBet(10);
-      setIsSpinning(false);
       setBetPopupMontant(0);
       setWinPopupMontant(0);
       miseRef.current = 10;
@@ -209,17 +207,16 @@ const Machine = () => {
     } else if (isSpinning) {
       return;
     } else {
-      setIsSpinning(true);
 
       const betAmount = miseInitale;
 
       setBetPopupMontant(miseInitale);
+      timelines.current.forEach((tl) => tl.restart());
+      setIsSpinning(true);
       setMisePopupTrigger((prev) => prev + 1);
       setBalanceRestante((prev) => prev - betAmount);
 
       miseRef.current = miseInitale;
-
-      timelines.current.forEach((tl) => tl.restart());
     }
   }
 
@@ -275,4 +272,3 @@ const Machine = () => {
 };
 
 export default Machine;
-ok
