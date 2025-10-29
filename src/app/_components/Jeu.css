@@ -23,6 +23,7 @@
   background-image: url("/png/jeuBG.png");
   background-position: calc(50% - 20px) center;
   background-size: cover;
+  filter: brightness(0.5);
 }
 
 .jeuCadre {
@@ -38,6 +39,7 @@
   background-position: center;
   z-index: 5;
   pointer-events: none;
+  filter: brightness(0.5);
 }
 
 .object {

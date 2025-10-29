@@ -15,3 +15,13 @@
   height: 280px;
   justify-content: center;
 }
+
+.brightness-in {
+  animation: brightness-in 0.5s forwards;
+}
+
+@keyframes brightness-in {
+  to {
+    filter: brightness(1);
+  }
+}

@@ -21,13 +21,13 @@ const Machine = () => {
   useLenis();
   const timelines = useRef([]);
 
-  var symbols = [
-    { key: "coin", url: "png/machine_coin.png" },
-    { key: "star", url: "png/machine_star.png" },
-    { key: "galaxy", url: "png/machine_galaxy.png" },
+  var objects = [
+    { url: "png/machine_coin.png" },
+    { url: "png/machine_star.png" },
+    { url: "png/machine_galaxy.png" },
   ];
 
-  var imgUrls = symbols.map((image) => image.url);
+  var imgUrls = objects.map((image) => image.url);
 
   //State Bet
   const [miseInitale, setMiseInitale] = useState(10);
@@ -39,6 +39,9 @@ const Machine = () => {
   const [lastChange, setLastChange] = useState(0);
   //State lors que ca spin
   const [isSpinning, setIsSpinning] = useState(false);
+  //state current mise
+  const [mise, setMise] = useState(10);
+  const miseRef = useRef(10);
 
   //Logique bet
   const augmenterMise = () => {
@@ -58,7 +61,7 @@ const Machine = () => {
     const imgs = document.querySelectorAll(".object");
     timelines.current = [];
 
-    imgs.forEach((img) => {
+    imgs.forEach((img, i) => {
       const tl = gsap.timeline({
         repeat: 3,
         paused: true,
@@ -67,7 +70,7 @@ const Machine = () => {
           img.src = randomUrl;
         },
         onComplete: () => {
-          showResults();
+          if (i === 1) showResults();
         },
       });
 
@@ -86,9 +89,9 @@ const Machine = () => {
   });
 
   function showResults() {
-    const img = document.querySelectorAll(".object");
-    gsap.set(img, { y: -420 });
-    gsap.to(img, {
+    const imgs = document.querySelectorAll(".object");
+    gsap.set(imgs, { y: -420 });
+    gsap.to(imgs, {
       y: 0,
       duration: 0.5,
       ease: "elastic.out(1,0.5)",
@@ -96,13 +99,61 @@ const Machine = () => {
     });
 
     setIsSpinning(false);
-    console.log("is spining false");
+
+    calculateResults();
+  }
+
+  function calculateResults() {
+    const imgs = document.querySelectorAll(".object");
+    const img1 = imgs[0].src;
+    const img2 = imgs[1].src;
+    const img3 = imgs[2].src;
+
+    const getSymbol = (img) => {
+      switch (true) {
+        case img.includes("machine_coin.png"):
+          return "coin";
+        case img.includes("machine_star.png"):
+          return "star";
+        default:
+          return "galaxy";
+      }
+    };
+
+    const [symbol1, symbol2, symbol3] = [img1, img2, img3].map(getSymbol);
+
+    if (symbol1 === symbol2 && symbol2 === symbol3) {
+      calculateMatch(3, symbol1, miseRef.current);
+    } else if (
+      symbol1 === symbol2 ||
+      symbol2 === symbol3 ||
+      symbol3 === symbol1
+    ) {
+      const matchedSymbol =
+        symbol1 === symbol2 ? symbol1 : symbol2 === symbol3 ? symbol2 : symbol1;
+      calculateMatch(2, matchedSymbol, miseRef.current);
+    }
+  }
+
+  function calculateMatch(matchNumber, matchedSymbol, mise) {
+    console.log("MISE: " + mise);
+
+    const multipliers = {
+      coin: { 2: 1.25, 3: 5 },
+      star: { 2: 2, 3: 8 },
+      galaxy: { 2: 5, 3: 20 },
+    };
+
+    const winAmount = mise * multipliers[matchedSymbol][matchNumber];
+    console.log("WIN AMOUNT: " + winAmount);
   }
 
   function playAll() {
     if (!isOn || isSpinning) return;
     setIsSpinning(true);
 
+    miseRef.current = miseInitale;
+    setMise(miseInitale);
     setBalance((prev) => prev - miseInitale);
     setLastChange(-miseInitale);
     timelines.current.forEach((tl) => tl.restart());
@@ -113,7 +164,7 @@ const Machine = () => {
       const imgs = document.querySelectorAll(".object");
       if (!isOn) {
         timelines.current.forEach((tl) => tl.pause());
-        gsap.to(imgs, { y: -450, duration: 0.2, overwrite: "auto" });
+        gsap.set(imgs, { y: -450, overwrite: "auto" });
       } else {
         gsap.to(imgs, {
           y: 0,
@@ -141,7 +192,7 @@ const Machine = () => {
 
       <Legende isOn={isOn} />
 
-      <Jeu />
+      <Jeu isOn={isOn} />
 
       <Boutons playAll={playAll} togglePower={togglePower} isOn={isOn} />
 

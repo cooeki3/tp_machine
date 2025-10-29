@@ -9,7 +9,7 @@ const Compteurs = ({
   lastChange,
 }) => {
   return (
-    <div className="compteurs-container">
+    <div className={"compteurs-container " + (isOn ? " brightness-in" : "")}>
       {isOn && (
         <div className="btn-mise fade-in">
           <button className="boutons-compteurs" onClick={diminuerMise}></button>
