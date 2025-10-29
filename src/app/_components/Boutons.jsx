@@ -4,7 +4,7 @@ const Boutons = ({ playAll, togglePower, isOn }) => {
   return (
     <div className="boutons-container">
       {isOn && (
-        <button className="boutons jouer on" onClick={playAll}>
+        <button className="boutons jouer on fade-in" onClick={playAll}>
           Jouer
         </button>
       )}
