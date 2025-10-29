@@ -1,0 +1,11 @@
+#cursor {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 100;
+  transform: translate(-50%, -50%);
+  background-image: url("/png/star.png");
+  background-size: contain;
+  background-position: center;
+}
