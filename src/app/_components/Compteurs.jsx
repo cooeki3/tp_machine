@@ -16,7 +16,6 @@ const Compteurs = ({
 
   useEffect(() => {
     if (popupTrigger > 0) {
-      // ✅ Change ici aussi
       setDisplayBetPopup(true);
       const timer = setTimeout(() => {
         setDisplayBetPopup(false);
