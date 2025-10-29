@@ -1,21 +1,21 @@
 .boutons-container {
-  position: absolute;
-  height: 97px;
-  bottom: 11%;
   display: flex;
-  flex-direction: row;
+  position: absolute;
   right: 21%;
+  bottom: 11%;
+  flex-direction: row;
   gap: 80px;
   z-index: 100;
+  height: 97px;
 }
 
 .boutons {
-  height: 97px;
-  width: 291px;
-  background-color: transparent;
-  border: none;
-  cursor: none;
   z-index: 100;
+  cursor: none;
+  border: none;
+  background-color: transparent;
+  width: 291px;
+  height: 97px;
   color: white;
   font-size: 30px;
 }

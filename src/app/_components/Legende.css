@@ -3,21 +3,21 @@
   position: absolute;
   top: 21.5%;
   left: 4%;
-  width: 580px;
-  height: 580px;
   filter: brightness(0.5);
 
   background-image: url("/png/legende.png");
   background-position: center;
-  background-repeat: no-repeat;
   background-size: contain;
+  background-repeat: no-repeat;
+  width: 580px;
+  height: 580px;
 }
 
 .legende-content {
-  position: absolute;
-  left: 130;
-  top: 130;
   display: flex;
+  position: absolute;
+  top: 130;
+  left: 130;
   flex-direction: column;
   gap: 20px;
 }
@@ -54,12 +54,12 @@
 }
 
 .jackpot {
-  font-weight: 900;
-  color: gold;
-  text-shadow: 0 0 10px #ffcc00, 0 0 20px #ff9900;
   animation: scaleAnim 1.2s infinite alternate;
-  letter-spacing: 5px;
   margin-left: 15px;
+  color: gold;
+  font-weight: 900;
+  letter-spacing: 5px;
+  text-shadow: 0 0 10px #ffcc00, 0 0 20px #ff9900;
 }
 
 @keyframes scaleAnim {

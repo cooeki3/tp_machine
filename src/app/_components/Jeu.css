@@ -1,29 +1,29 @@
 .object-wrap {
-  position: absolute;
-  left: 30%;
-  top: 0;
-  width: 1218.9488px;
-  height: 781.6846px;
   display: flex;
+  position: absolute;
+  top: 0;
+  left: 30%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 1218.9488px;
+  height: 781.6846px;
 }
 
 .object-container {
-  position: relative;
-  width: 1030px;
-  height: 650px;
-  padding: 70px;
-  overflow: hidden;
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
   z-index: 1;
+  filter: brightness(0.5);
   background-image: url("/png/jeuBG.png");
   background-position: calc(50% - 20px) center;
   background-size: cover;
-  filter: brightness(0.5);
+  padding: 70px;
+  width: 1030px;
+  height: 650px;
+  overflow: hidden;
 }
 
 /* ===== Cadre Jaune Jeu (Droite) ===== */
@@ -32,22 +32,22 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 1218px;
-  height: 781px;
+  z-index: 5;
+  filter: brightness(0.5);
   background-image: url("/png/jeuCadre.png");
+  background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: center;
-  z-index: 5;
+  width: 1218px;
+  height: 781px;
   pointer-events: none;
-  filter: brightness(0.5);
 }
 
 /* ===== Coins, Stars, Galaxies ===== */
 .object {
+
+  opacity: 0;
   width: 200px;
   height: 200px;
   object-fit: content;
-
-  opacity: 0;
 }
