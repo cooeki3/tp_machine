@@ -12,14 +12,15 @@ import Compteurs from "./Compteurs.jsx";
 import Boutons from "./Boutons.jsx";
 import Clavier from "./Clavier.jsx";
 import Levier from "./Levier.jsx";
+import Accomplissements from "./Accomplissements.jsx";
 
 gsap.registerPlugin(useGSAP, Draggable);
 
 const Machine = () => {
   const timelines = useRef([]);
   const tlLevier = useRef();
-  const initialBet = 0;
-  const initialBalance = 500;
+  const miseInitiale = 5;
+  const balanceInitiale = 120;
 
   var objects = [
     { url: "png/machine_coin.png" },
@@ -29,14 +30,14 @@ const Machine = () => {
 
   var imgUrls = objects.map((image) => image.url);
 
-  //State Bet
-  const [miseInitale, setMiseInitale] = useState(initialBet);
   //State On/Off
   const [isOn, setIsOn] = useState(false);
+  //State Bet
+  const [miseInitale, setMiseInitale] = useState(miseInitiale);
   //Input mise
   const [miseSaisie, setmiseSaisie] = useState("");
   //State Balance restante
-  const [balanceRestante, setBalanceRestante] = useState(10);
+  const [balanceRestante, setBalanceRestante] = useState(balanceInitiale);
   //State Spin des symboles
   const [isSpinning, setIsSpinning] = useState(false);
   //State Trigger mise popup
@@ -62,7 +63,7 @@ const Machine = () => {
     }
   }, [misePopupTrigger]);
 
-  const miseRef = useRef(10);
+  const miseRef = useRef(miseSaisie);
 
   //Inpout clavier
   const afficherChiffre = (chiffre) => {
@@ -77,7 +78,8 @@ const Machine = () => {
   //Logique on/off
   const togglePower = () => {
     if (isOn) {
-      setBalanceRestante(initialBalance);
+      setBalanceRestante(balanceInitiale);
+      setmiseSaisie(miseInitale);
     }
     setIsOn(!isOn);
   };
@@ -286,6 +288,7 @@ const Machine = () => {
 
       <Boutons playAll={playAll} togglePower={togglePower} isOn={isOn} />
 
+      <Accomplissements isOn={isOn} />
       <Clavier isOn={isOn} afficherChiffre={afficherChiffre} />
 
       <Compteurs

@@ -3,6 +3,7 @@ import "./Clavier.css";
 const Clavier = ({ isOn, afficherChiffre, confirmerMise }) => {
   return (
     <div className={"legende-container " + (isOn ? " brightness-in" : "")}>
+      <img className="legende-img" src="png/legende.png" alt="" />
       <h2 className="keypad-titre" >Mise</h2>
       <div className="keypad">
         <div className="button_cont">

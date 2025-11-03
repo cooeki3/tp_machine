@@ -1,0 +1,23 @@
+.accomplissements-titre {
+  position: absolute;
+  top: 15%;
+  font-size: 30px;
+}
+
+.accomplissements-container {
+  position: absolute;
+  top: 2.5%;
+  left: 4%;
+  filter: brightness(0.5);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.accomplissements-img {
+  width: 580px;
+  height: 400px;
+
+}
