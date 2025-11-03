@@ -1,4 +1,11 @@
 /* ===== Cadre Jaune Légende (Gauche) ===== */
+.keypad-titre{
+position: absolute;
+top: 15%;
+  font-size: 40px;
+}
+
+
 .legende-container {
   position: absolute;
   top: 21.5%;
@@ -7,28 +14,16 @@
 
   background-image: url("/png/legende.png");
   background-position: center;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   width: 580px;
   height: 580px;
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-
-.legende-content {
-  display: flex;
-  position: absolute;
-  top: 130;
-  left: 130;
-  flex-direction: column;
-  gap: 20px;
-  background-image: url("/png/Keypad.png");
-  width: 300px;
-  height: 300px;
-}
-
 .fade-in {
   opacity: 0;
   animation: fadeIn 0.5s forwards;
@@ -53,7 +48,7 @@
 .keypad {
   position: relative;
   width: 320px;
-  height: 400px;
+  height: 300px;
   background: url("/png/keypad.png") center/contain no-repeat;
   display: flex;
   justify-content: center;
@@ -63,8 +58,7 @@
 .keypad .button_cont {
   position: absolute;
   top: 0;
-  left: 10px;
-  width: 94%;
+  width: 70%;
   height: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -73,8 +67,8 @@
 .keypad .button_cont button {
   background: transparent;
   border: none;
-  width: 90px;
-  height: 90px;
+  width: 75px;
+  height: 75px;
   cursor: pointer;
   text-indent: -9999px;
   overflow: hidden;
