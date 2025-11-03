@@ -22,6 +22,12 @@ const Machine = () => {
   const miseInitiale = 5;
   const balanceInitiale = 120;
 
+  const balanceRef = useRef();
+  const btnMiseRef = useRef();
+  const cadreRef = useRef();
+  const clavierRef = useRef();
+  const levierRef = useRef();
+
   var objects = [
     { url: "png/machine_coin.png" },
     { url: "png/machine_star.png" },
@@ -275,6 +281,31 @@ const Machine = () => {
     }
   }, [isSpinning, isOn]);
 
+  // var couleurDefault = [
+  //   [balanceRef, "btnBalance.png", "bg"],
+  //   [btnMiseRef, "btnMise.png", "bg"],
+  //   [cadreRef, "jeuCadre.png", "bg"],
+  //   [clavierRef, "keypad.png", "img"],
+  //   [levierRef, "levier.png", "bg"],
+  // ];
+  // function changerCouleur(couleur) {
+  //   var base = "/png/" + couleur + "/"; // ex.: /png/bleu/
+  //   for (var i = 0; i < fichiersParRef.length; i++) {
+  //     var ref = fichiersParRef[i][0];
+  //     var fichier = fichiersParRef[i][1];
+  //     var mode = fichiersParRef[i][2];
+
+  //     if (!ref || !ref.current) continue;
+
+  //     if (mode === "img") {
+  //       ref.current.src = base + fichier;
+  //     } else if (mode === "bg") {
+  //       ref.current.style.backgroundImage = "url(" + base + fichier + ")";
+  //     }
+  //   }
+  // }
+  // changerCouleur(bleu);
+
   return (
     <>
       <div className="page-background"></div>
@@ -283,12 +314,17 @@ const Machine = () => {
         <img className="logo" src="/png/logo.png" alt="Logo" />
       </div>
 
-      <Jeu isOn={isOn} />
+      <Jeu isOn={isOn} cadreRef={cadreRef} />
 
       <Boutons playAll={playAll} togglePower={togglePower} isOn={isOn} />
 
       <Accomplissements isOn={isOn} />
-      <Clavier isOn={isOn} afficherChiffre={afficherChiffre} />
+
+      <Clavier
+        isOn={isOn}
+        afficherChiffre={afficherChiffre}
+        clavierRef={clavierRef}
+      />
 
       <Compteurs
         isOn={isOn}
@@ -298,9 +334,11 @@ const Machine = () => {
         misePopupTrigger={misePopupTrigger}
         winPopupMontant={winPopupMontant}
         winPopupTrigger={winPopupTrigger}
+        balanceRef={balanceRef}
+        btnMiseRef={btnMiseRef}
       />
 
-      <Levier isOn={isOn} playAll={playAll} />
+      <Levier isOn={isOn} playAll={playAll} levierRef={levierRef} />
     </>
   );
 };

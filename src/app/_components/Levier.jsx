@@ -5,7 +5,7 @@ import Draggable from "gsap/Draggable";
 import { useEffect } from "react";
 import "./Levier.css";
 
-const Levier = ({ playAll, isOn }) => {
+const Levier = ({ playAll, isOn, levierRef }) => {
   useEffect(() => {
     Draggable.create(".levier", {
       type: "rotation",
@@ -30,7 +30,7 @@ const Levier = ({ playAll, isOn }) => {
 
   return (
     <div className={"levier-container" + (isOn ? " brightness-in" : "")}>
-      <img className="levier" src="/png/levier.png" alt="" />
+      <img ref={levierRef} className="levier" src="/png/levier.png" alt="" />
     </div>
   );
 };

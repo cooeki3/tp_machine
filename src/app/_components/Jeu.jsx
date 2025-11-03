@@ -1,9 +1,12 @@
 import "./Jeu.css";
 
-const Jeu = ({ isOn }) => {
+const Jeu = ({ isOn, cadreRef }) => {
   return (
     <div className="object-wrap">
-      <div className={"jeuCadre" + (isOn ? " brightness-in" : "")}></div>
+      <div
+        ref={cadreRef}
+        className={"jeuCadre" + (isOn ? " brightness-in" : "")}
+      ></div>
       <div className={"object-container" + (isOn ? " brightness-in" : "")}>
         <img className="object object-1" src="/png/machine_coin.png" alt="" />
         <img className="object object-2" src="/png/machine_star.png" alt="" />

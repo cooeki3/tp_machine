@@ -66,10 +66,12 @@
 .keypad .button_cont button {
   background: transparent;
   border: none;
-  width: 55px;
+  width: 55pxs;
   height: 55px;
   cursor: pointer;
   text-indent: -9999px;
   overflow: hidden;
-  pointer-events: none;
+  &:hover {
+    cursor: none;
+  }
 }

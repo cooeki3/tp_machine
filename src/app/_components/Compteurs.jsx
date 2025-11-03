@@ -10,6 +10,8 @@ const Compteurs = ({
   winPopupMontant,
   winPopupTrigger,
   miseSaisie,
+  balanceRef,
+  btnMiseRef,
 }) => {
   const [displayBetPopup, setDisplayBetPopup] = useState(false);
   const [displayWinPopup, setDisplayWinPopup] = useState(false);
@@ -36,7 +38,10 @@ const Compteurs = ({
   }, [winPopupTrigger]);
 
   return (
-    <div className={"compteurs-container " + (isOn ? " brightness-in" : "")}>
+    <div
+      ref={btnMiseRef}
+      className={"compteurs-container " + (isOn ? " brightness-in" : "")}
+    >
       {isOn && (
         <div className="btn-mise fade-in">
           <p className="btn-mise-text">
@@ -47,7 +52,7 @@ const Compteurs = ({
       )}
 
       {isOn && (
-        <div className="balance fade-in">
+        <div ref={balanceRef} className="balance fade-in">
           <p className="balance-text">Balance: {balanceRestante}$</p>
 
           {displayBetPopup && (
