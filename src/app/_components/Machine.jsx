@@ -22,12 +22,13 @@ const Machine = () => {
   const miseInitiale = 5;
   const balanceInitiale = 100;
 
-  const balanceRef = useRef();
+  const btnBalanceRef = useRef();
   const btnMiseRef = useRef();
   const cadreRef = useRef();
   const clavierRef = useRef();
   const levierRef = useRef();
   const logoRef = useRef();
+  const backgroundRef = useRef();
 
   var objects = [
     { url: "png/machine_coin.png" },
@@ -283,12 +284,13 @@ const Machine = () => {
   }, [isSpinning, isOn]);
 
   var couleurDefault = [
-    [balanceRef, "btnBalance.png", "bg"],
+    [btnBalanceRef, "btnBalance.png", "bg"],
     [btnMiseRef, "btnMise.png", "bg"],
     [cadreRef, "jeuCadre.png", "bg"],
     [clavierRef, "keypad.png", "bg"],
     [levierRef, "levier.png", "img"],
     [logoRef, "logo.png", "img"],
+    [backgroundRef, "pageBackground.png", "bg"],
   ];
 
   function changerCouleur(couleur) {
@@ -306,11 +308,11 @@ const Machine = () => {
       }
     }
   }
-  changerCouleur("bleu");
+  changerCouleur("mauve");
 
   return (
     <>
-      <div className="page-background"></div>
+      <div ref={backgroundRef} className="page-background"></div>
 
       <div className="logo-container">
         <img ref={logoRef} className="logo" src="/png/logo.png" alt="Logo" />
@@ -336,7 +338,7 @@ const Machine = () => {
         misePopupTrigger={misePopupTrigger}
         winPopupMontant={winPopupMontant}
         winPopupTrigger={winPopupTrigger}
-        balanceRef={balanceRef}
+        btnBalanceRef={btnBalanceRef}
         btnMiseRef={btnMiseRef}
       />
 

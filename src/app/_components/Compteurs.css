@@ -20,7 +20,7 @@
 /* ===== Mise Section ===== */
 .btn-mise {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   filter: brightness(1.3);
   background-image: url("/png/btnMise.png");
@@ -45,13 +45,10 @@
 
 .btn-mise-text {
   font-size: 20px;
-  position: absolute;
-  left: 35%;
 }
 
-.balance {
+.btn-balance {
   display: flex;
-  position: relative;
   justify-content: center;
   align-items: center;
   filter: brightness(1.3);
@@ -62,7 +59,7 @@
   height: 59px;
 }
 
-.balance-text {
+.btn-balance-text {
   font-size: 20px;
 }
 

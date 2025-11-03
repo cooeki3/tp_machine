@@ -10,7 +10,7 @@ const Compteurs = ({
   winPopupMontant,
   winPopupTrigger,
   miseSaisie,
-  balanceRef,
+  btnBalanceRef,
   btnMiseRef,
 }) => {
   const [displayBetPopup, setDisplayBetPopup] = useState(false);
@@ -49,8 +49,8 @@ const Compteurs = ({
       )}
 
       {isOn && (
-        <div ref={balanceRef} className="balance fade-in">
-          <p className="balance-text">Balance: {balanceRestante}$</p>
+        <div className="btn-balance fade-in" ref={btnBalanceRef}>
+          <p className="btn-balance-text">Balance: {balanceRestante}$</p>
 
           {displayBetPopup && (
             <p className="bet-popup bet">-{misePopupMontant}$</p>
