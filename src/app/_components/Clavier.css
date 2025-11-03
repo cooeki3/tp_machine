@@ -72,4 +72,5 @@ top: 15%;
   cursor: pointer;
   text-indent: -9999px;
   overflow: hidden;
+  pointer-events: none;
 }
