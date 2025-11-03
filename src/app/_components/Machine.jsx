@@ -217,7 +217,6 @@ const Machine = () => {
       return;
     } else {
       setIsSpinning(true);
-      console.log("TRUE 210")
       const betAmount = miseInitale;
       setBetPopupMontant(miseInitale);
       timelines.current.forEach((tl) => tl.restart());
@@ -235,7 +234,6 @@ const Machine = () => {
         timelines.current.forEach((tl) => tl.pause());
         gsap.set(imgs, { y: -450, overwrite: "auto" });
         setIsSpinning(false)
-        console.log("FALSE 228")
       } else {
         gsap.to(imgs, {
           y: 0,
@@ -246,8 +244,6 @@ const Machine = () => {
             setIsSpinning(false)
           }
         });
-        console.log("FALSE 239")
-
         timelines.current.forEach((tl) => tl.pause());
       }
     },
