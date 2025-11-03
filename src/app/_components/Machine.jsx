@@ -20,7 +20,7 @@ const Machine = () => {
   const timelines = useRef([]);
   const tlLevier = useRef();
   const miseInitiale = 5;
-  const balanceInitiale = 120;
+  const balanceInitiale = 100;
 
   const balanceRef = useRef();
   const btnMiseRef = useRef();
