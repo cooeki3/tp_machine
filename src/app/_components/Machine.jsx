@@ -191,7 +191,6 @@ const Machine = () => {
       setmiseSaisie("");
     }
 
-    // Not enough balance?
     if (
       (miseSaisie > balanceRestante && !balanceAnimating) ||
       Number(miseSaisie) === 0
