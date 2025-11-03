@@ -182,6 +182,7 @@ const Machine = () => {
     tl.call(() => {
       changeSource("/audio/casino.mp3", true);
     });
+    
 
     const multipliers = {
       coin: { 2: 1.25, 3: 2 },
