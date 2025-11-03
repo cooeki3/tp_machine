@@ -189,10 +189,7 @@ const Machine = () => {
     if (!isOn) return;
 
     // Determine the bet amount
-    let betAmount = miseSaisie ? Number(miseSaisie) : miseInitale;
-
-    // Clamp between 5 and 100
-    betAmount = Math.min(Math.max(betAmount, 5), 100);
+    let betAmount = miseSaisie ? miseSaisie : miseInitale;
 
     // Update state for new typed bet
     if (miseSaisie) {
@@ -201,7 +198,7 @@ const Machine = () => {
     }
 
     // Not enough balance?
-    if (betAmount > balanceRestante && !balanceAnimating) {
+    if (miseSaisie > balanceRestante && !balanceAnimating) {
       setBalanceAnimating(true);
       const tl = gsap.timeline({
         yoyo: true,
