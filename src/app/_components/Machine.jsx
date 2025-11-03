@@ -78,43 +78,13 @@ const Machine = () => {
 
   const afficherChiffre = (chiffre) => {
     if (!isOn || isSpinning) return;
+    let fieldValue = typedBet + chiffre;
+    
+    // fieldValue = fieldValue.substring(1);
+    if (fieldValue > 100) return;
+    setTypedBet(fieldValue);
 
-    const newInput = typedBet + chiffre;
-
-    // Prevent bet higher than 100
-    if (Number(newInput) > 100) return;
-
-    // Prevent too many digits
-    if (newInput.length > 3) return;
-
-    setTypedBet(newInput);
   };
-
-  // Confirmer bet avec levier
-  const confirmerMise = () => {
-    if (!isOn) return;
-
-    const parsed = parseInt(typedBet);
-    if (isNaN(parsed)) return;
-
-    const validated = Math.min(Math.max(parsed, 5), 100);
-    setMiseInitale(validated);
-    setTypedBet("");
-  };
-
-  //Logique mise
-  // const augmenterMise = () => {
-  //   if (miseInitale < 100) {
-  //     setMiseInitale(miseInitale + 5);
-  //   } else {
-  //     setIsMiseMax(true);
-  //     setTimeout(() => setIsMiseMax(false), 1500);
-  //   }
-  // };
-
-  // const diminuerMise = () => {
-  //   if (miseInitale > 5) setMiseInitale(miseInitale - 5);
-  // };
 
   //Logique on/off
   const togglePower = () => {
@@ -338,11 +308,7 @@ const Machine = () => {
 
       <Boutons playAll={playAll} togglePower={togglePower} isOn={isOn} />
 
-      <Clavier
-        isOn={isOn}
-        afficherChiffre={afficherChiffre}
-        // confirmerMise={confirmerMise}
-      />
+      <Clavier isOn={isOn} afficherChiffre={afficherChiffre} />
 
       <Compteurs
         isOn={isOn}
