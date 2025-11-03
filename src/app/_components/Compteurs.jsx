@@ -3,18 +3,17 @@ import { useState, useEffect } from "react";
 import "./Compteurs.css";
 
 const Compteurs = ({
-  miseInitale,
   isOn,
   balanceRestante,
   misePopupMontant,
   misePopupTrigger,
   winPopupMontant,
   winPopupTrigger,
-  isMiseMax,
   miseSaisie,
 }) => {
   const [displayBetPopup, setDisplayBetPopup] = useState(false);
   const [displayWinPopup, setDisplayWinPopup] = useState(false);
+  const miseInitale = 0;
 
   useEffect(() => {
     if (misePopupTrigger > 0) {

@@ -36,7 +36,7 @@ const Machine = () => {
   //Input mise
   const [miseSaisie, setmiseSaisie] = useState("");
   //State Balance restante
-  const [balanceRestante, setBalanceRestante] = useState(500);
+  const [balanceRestante, setBalanceRestante] = useState(10);
   //State Spin des symboles
   const [isSpinning, setIsSpinning] = useState(false);
   //State Trigger mise popup
@@ -78,10 +78,6 @@ const Machine = () => {
   const togglePower = () => {
     if (isOn) {
       setBalanceRestante(initialBalance);
-      setMiseInitale(initialBet);
-      setBetPopupMontant(0);
-      setWinPopupMontant(0);
-      miseRef.current = 10;
     }
     setIsOn(!isOn);
   };
@@ -188,20 +184,16 @@ const Machine = () => {
   function playAll() {
     if (!isOn) return;
 
-    // Determine the bet amount
-    let betAmount = miseSaisie ? Number(miseSaisie) : miseInitale;
-
-    // Clamp between 5 and 100
-    betAmount = Math.min(Math.max(betAmount, 5), 100);
-
-    // Update state for new typed bet
-    if (miseSaisie) {
-      setMiseInitale(betAmount);
+    if (miseSaisie > 0) {
+      setMiseInitale(miseSaisie);
       setmiseSaisie("");
     }
 
     // Not enough balance?
-    if (betAmount > balanceRestante && !balanceAnimating) {
+    if (
+      (miseSaisie > balanceRestante && !balanceAnimating) ||
+      Number(miseSaisie) === 0
+    ) {
       setBalanceAnimating(true);
       const tl = gsap.timeline({
         yoyo: true,
@@ -217,16 +209,14 @@ const Machine = () => {
       return;
     }
 
-    // Prevent new spins if already spinning
     if (isSpinning) return;
 
-    // Start the spin
     setIsSpinning(true);
-    setBetPopupMontant(betAmount);
+    setBetPopupMontant(miseSaisie);
     timelines.current.forEach((tl) => tl.restart());
     setMisePopupTrigger((prev) => prev + 1);
-    setBalanceRestante((prev) => prev - betAmount);
-    miseRef.current = betAmount;
+    setBalanceRestante((prev) => prev - miseSaisie);
+    miseRef.current = miseSaisie;
   }
 
   //Reset objets
@@ -300,7 +290,6 @@ const Machine = () => {
 
       <Compteurs
         isOn={isOn}
-        miseInitale={miseInitale}
         miseSaisie={miseSaisie}
         balanceRestante={balanceRestante}
         misePopupMontant={misePopupMontant}
