@@ -62,7 +62,7 @@ const Machine = () => {
     }
   }, [misePopupTrigger]);
 
-  const miseRef = useRef(10);
+  const miseRef = useRef(100);
 
   //Inpout clavier
   const afficherChiffre = (chiffre) => {
@@ -189,7 +189,6 @@ const Machine = () => {
       setmiseSaisie("");
     }
 
-    // Not enough balance?
     if (
       (miseSaisie > balanceRestante && !balanceAnimating) ||
       Number(miseSaisie) === 0
