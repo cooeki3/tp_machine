@@ -4,8 +4,6 @@ import "./Compteurs.css";
 
 const Compteurs = ({
   miseInitale,
-  // augmenterMise,
-  // diminuerMise,
   isOn,
   balanceRestante,
   misePopupMontant,
@@ -46,7 +44,6 @@ const Compteurs = ({
             {" "}
             Mise: {miseSaisie ? miseSaisie : miseInitale}$
           </p>
-          {isMiseMax && <p className="mise-max">MISE MAX!</p>}
         </div>
       )}
 
