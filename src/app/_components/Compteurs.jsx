@@ -4,15 +4,12 @@ import "./Compteurs.css";
 
 const Compteurs = ({
   miseInitale,
-  // augmenterMise,
-  // diminuerMise,
   isOn,
   balanceRestante,
   misePopupMontant,
   misePopupTrigger,
   winPopupMontant,
   winPopupTrigger,
-  isMiseMax,
   typedBet,
 }) => {
   const [displayBetPopup, setDisplayBetPopup] = useState(false);
@@ -46,7 +43,6 @@ const Compteurs = ({
             {" "}
             Mise: {typedBet ? typedBet : miseInitale}$
           </p>
-          {isMiseMax && <p className="mise-max">MISE MAX!</p>}
         </div>
       )}
 

@@ -7,7 +7,6 @@ import { Draggable } from "gsap/all";
 
 import "./Machine.css";
 
-import Legende from "./Clavier.jsx";
 import Jeu from "./Jeu.jsx";
 import Compteurs from "./Compteurs.jsx";
 import Boutons from "./Boutons.jsx";
@@ -48,8 +47,6 @@ const Machine = () => {
   const [winPopupMontant, setWinPopupMontant] = useState(0);
   //State Trigger win popup
   const [winPopupTrigger, setWinPopupTrigger] = useState(0);
-  //State Mise max
-  const [isMiseMax, setIsMiseMax] = useState(false);
   //State Animation balance négative
   const [balanceAnimating, setBalanceAnimating] = useState(false);
   const { changeSource, play } = useAudio(false);
@@ -63,16 +60,7 @@ const Machine = () => {
       }, 800);
       return () => clearTimeout(timer);
     }
-
-    //Animation lorsque la mise est au MAX
-    if (isMiseMax) {
-      gsap.fromTo(
-        ".mise-max",
-        { scale: 0, opacity: 0 },
-        { scale: 1.5, opacity: 1, duration: 0.6, ease: "elastic.out(1, 0.5)" }
-      );
-    }
-  }, [misePopupTrigger, isMiseMax]);
+  }, [misePopupTrigger]);
 
   const miseRef = useRef(10);
 
@@ -313,15 +301,12 @@ const Machine = () => {
       <Compteurs
         isOn={isOn}
         miseInitale={miseInitale}
-        // augmenterMise={augmenterMise}
-        // diminuerMise={diminuerMise}
         typedBet={typedBet}
         balanceRestante={balanceRestante}
         misePopupMontant={misePopupMontant}
         misePopupTrigger={misePopupTrigger}
         winPopupMontant={winPopupMontant}
         winPopupTrigger={winPopupTrigger}
-        isMiseMax={isMiseMax}
       />
 
       <Levier isOn={isOn} playAll={playAll} />
