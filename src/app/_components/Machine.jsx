@@ -180,7 +180,7 @@ const Machine = () => {
   function calculateMatch(matchNumber, matchedSymbol, mise) {
     const tl = gsap.timeline();
     tl.call(() => {
-      changeSource("/audio/casino.mp3", true);
+      changeSource("/Audio/casino.mp3", true);
       console.log("Audio played")
     });
 
