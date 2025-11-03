@@ -12,7 +12,7 @@ const Accomplissements = ({ isOn }) => {
         <img className="recompense2" src="png/recompense-bleu.png" alt="" />
         <img className="recompense3" src="png/recompense-vert.png" alt="" />
       </div>
-      <div className="gauge">ALLO ???</div>
+      <div className="gauge"></div>
     </div>
   );
 };

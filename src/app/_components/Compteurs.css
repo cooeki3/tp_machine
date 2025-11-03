@@ -81,7 +81,7 @@
 .bet-popup {
   position: absolute;
   bottom: 730px;
-  left: 22%;
+  right: -110%;
   animation: popUp 0.8s ease-out forwards;
   color: #ffd700;
   font-weight: 800;
