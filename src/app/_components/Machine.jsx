@@ -281,30 +281,30 @@ const Machine = () => {
     }
   }, [isSpinning, isOn]);
 
-  // var couleurDefault = [
-  //   [balanceRef, "btnBalance.png", "bg"],
-  //   [btnMiseRef, "btnMise.png", "bg"],
-  //   [cadreRef, "jeuCadre.png", "bg"],
-  //   [clavierRef, "keypad.png", "img"],
-  //   [levierRef, "levier.png", "bg"],
-  // ];
-  // function changerCouleur(couleur) {
-  //   var base = "/png/" + couleur + "/"; // ex.: /png/bleu/
-  //   for (var i = 0; i < fichiersParRef.length; i++) {
-  //     var ref = fichiersParRef[i][0];
-  //     var fichier = fichiersParRef[i][1];
-  //     var mode = fichiersParRef[i][2];
+  var couleurDefault = [
+    [balanceRef, "btnBalance.png", "bg"],
+    [btnMiseRef, "btnMise.png", "bg"],
+    [cadreRef, "jeuCadre.png", "bg"],
+    [clavierRef, "keypad.png", "img"],
+    [levierRef, "levier.png", "bg"],
+  ];
+  function changerCouleur(couleur) {
+    var base = "/png/" + couleur + "/" + couleur + "-";
+    for (var i = 0; i < couleurDefault.length; i++) {
+      var ref = couleurDefault[i][0];
+      var fichier = couleurDefault[i][1];
+      var mode = couleurDefault[i][2];
 
-  //     if (!ref || !ref.current) continue;
+      if (!ref || !ref.current) continue;
 
-  //     if (mode === "img") {
-  //       ref.current.src = base + fichier;
-  //     } else if (mode === "bg") {
-  //       ref.current.style.backgroundImage = "url(" + base + fichier + ")";
-  //     }
-  //   }
-  // }
-  // changerCouleur(bleu);
+      if (mode === "img") {
+        ref.current.src = base + fichier;
+      } else if (mode === "bg") {
+        ref.current.style.backgroundImage = "url(" + base + fichier + ")";
+      }
+    }
+  }
+  changerCouleur("bleu");
 
   return (
     <>
