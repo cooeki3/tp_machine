@@ -20,7 +20,7 @@ const Machine = () => {
   const timelines = useRef([]);
   const tlLevier = useRef();
   const miseInitiale = 5;
-  const balanceInitiale = 100;
+  const balanceInitiale = 1000;
 
   const btnBalanceRef = useRef();
   const btnMiseRef = useRef();
@@ -29,6 +29,7 @@ const Machine = () => {
   const levierRef = useRef();
   const logoRef = useRef();
   const backgroundRef = useRef();
+  const gaugeFillRef = useRef();
 
   var objects = [
     { url: "png/machine_coin.png" },
@@ -38,30 +39,19 @@ const Machine = () => {
 
   var imgUrls = objects.map((image) => image.url);
 
-  //State On/Off
   const [isOn, setIsOn] = useState(false);
-  //State Bet
   const [miseInitale, setMiseInitale] = useState(miseInitiale);
-  //Input mise
   const [miseSaisie, setmiseSaisie] = useState("");
-  //State Balance restante
   const [balanceRestante, setBalanceRestante] = useState(balanceInitiale);
-  //State Spin des symboles
   const [isSpinning, setIsSpinning] = useState(false);
-  //State Trigger mise popup
   const [misePopupTrigger, setMisePopupTrigger] = useState(0);
-  //State Mise popup montant
   const [misePopupMontant, setBetPopupMontant] = useState(0);
-  //State Win popup montant
   const [winPopupMontant, setWinPopupMontant] = useState(0);
-  //State Trigger win popup
   const [winPopupTrigger, setWinPopupTrigger] = useState(0);
-  //State Animation balance négative
   const [balanceAnimating, setBalanceAnimating] = useState(false);
   const { changeSource, play } = useAudio(false);
 
   useEffect(() => {
-    //Animation du popup de la mise quand le joueur appuie sur jouer
     if (misePopupTrigger > 0) {
       setMisePopupTrigger(true);
       const timer = setTimeout(() => {
@@ -73,7 +63,6 @@ const Machine = () => {
 
   const miseRef = useRef(miseSaisie);
 
-  //Inpout clavier
   const afficherChiffre = (chiffre) => {
     if (!isOn || isSpinning) return;
     let fieldValue = miseSaisie + chiffre;
@@ -83,11 +72,10 @@ const Machine = () => {
     setmiseSaisie(fieldValue);
   };
 
-  //Logique on/off
   const togglePower = () => {
     if (isOn) {
       setBalanceRestante(balanceInitiale);
-      setmiseSaisie(miseInitale);
+      setmiseSaisie("");
     }
     setIsOn(!isOn);
   };
@@ -228,7 +216,6 @@ const Machine = () => {
     miseRef.current = miseSaisie;
   }
 
-  //Reset objets
   useGSAP(
     () => {
       const imgs = document.querySelectorAll(".object");
@@ -238,6 +225,7 @@ const Machine = () => {
         setIsSpinning(false);
       } else {
         gsap.to(imgs, {
+
           y: 0,
           opacity: 1,
           duration: 0.6,
@@ -252,7 +240,6 @@ const Machine = () => {
     { dependencies: [isOn] }
   );
 
-  //Bouton Jouer brightness
   useGSAP(() => {
     if (tlLevier.current) {
       tlLevier.current.kill();
@@ -263,16 +250,16 @@ const Machine = () => {
         ease: "none",
         duration: 0,
       });
-      gsap.to(".levier", {
-        filter: "none",
+      gsap.to(".levier-container", {
+        scale: 1,
         duration: 0.3,
       });
     } else if (isOn && !isSpinning) {
       tlLevier.current = gsap.timeline({ repeat: -1, yoyo: true });
-      tlLevier.current.to(".levier", {
+      tlLevier.current.to(".levier-container", {
         duration: 0.6,
-        filter:
-          "drop-shadow(2px 2px 15px #ffcc00) drop-shadow(2px 2px 20px #ffbb00)",
+        ease: "power1.inOut",
+        scale: 1.08
       });
     } else {
       gsap.to(".jouer", {
@@ -284,45 +271,69 @@ const Machine = () => {
   }, [isSpinning, isOn]);
 
   var couleurDefault = [
-    [btnBalanceRef, "btnBalance.png", "bg"],
-    [btnMiseRef, "btnMise.png", "bg"],
-    [cadreRef, "jeuCadre.png", "bg"],
-    [clavierRef, "keypad.png", "bg"],
-    [levierRef, "levier.png", "img"],
-    [logoRef, "logo.png", "img"],
-    [backgroundRef, "pageBackground.png", "bg"],
+    [btnBalanceRef, "btnBalance.png"],
+    [btnMiseRef, "btnMise.png"],
+    [cadreRef, "jeuCadre.png"],
+    [clavierRef, "keypad.png"],
+    [levierRef, "levier.png"],
+    [logoRef, "logo.png"],
+    [backgroundRef, "pageBackground.png"],
   ];
+
+  useEffect(() => {
+    const percentage = (balanceRestante / 1000) * 100;
+
+    gsap.to(gaugeFillRef.current, {
+      width: percentage + "%",
+      duration: 0.5,
+      ease: "power2.out"
+    });
+
+    if (balanceRestante >= 50) {
+      gsap.to(".recompense1", {
+        filter: "brightness(1)",
+        pointerEvents: "auto"
+      })
+    }
+    if (balanceRestante >= 500) {
+      gsap.to(".recompense2", {
+        filter: "brightness(1)",
+        pointerEvents: "auto"
+      })
+    }
+    if (balanceRestante >= 1000) {
+      gsap.to(".recompense3", {
+        filter: "brightness(1)",
+        pointerEvents: "auto"
+      })
+    }
+  }, [balanceRestante]);
 
   function changerCouleur(couleur) {
     var prefix = "/png/" + couleur + "/" + couleur + "-";
-    for (var i = 0; i < couleurDefault.length; i++) {
-      var ref = couleurDefault[i][0];
-      var path = couleurDefault[i][1];
-      var type = couleurDefault[i][2];
-
-      if (!ref || !ref.current) continue;
-      if (type === "img") {
-        ref.current.src = prefix + path;
-      } else if (type === "bg") {
+    couleurDefault.map((i) => {
+      var ref = i[0];
+      var path = i[1];
+      if (ref && ref.current) {
         ref.current.style.backgroundImage = "url(" + prefix + path + ")";
       }
-    }
+    });
   }
-  changerCouleur("mauve");
+
+
 
   return (
     <>
       <div ref={backgroundRef} className="page-background"></div>
 
-      <div className="logo-container">
-        <img ref={logoRef} className="logo" src="/png/logo.png" alt="Logo" />
+      <div className="logo-container" ref={logoRef}>
       </div>
 
       <Jeu isOn={isOn} cadreRef={cadreRef} />
 
       <Boutons playAll={playAll} togglePower={togglePower} isOn={isOn} />
 
-      <Accomplissements isOn={isOn} />
+      <Accomplissements isOn={isOn} gaugeFillRef={gaugeFillRef} changerCouleur={changerCouleur} />
 
       <Clavier
         isOn={isOn}

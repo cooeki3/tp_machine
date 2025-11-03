@@ -10,19 +10,24 @@
 }
 
 .logo-container {
+  display: flex;
   position: relative;
+  left: 12%;
   z-index: 200;
   margin: auto;
-  display: flex;
+  margin-top: -45px;
+
+  background-image: url("/png/logo.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
   padding-left: 450px;
-  justify-content: center;
   width: 35%;
   height: 280px;
-  margin-top: -45px;
 }
 .bleu {
-  transition: all 0.5s;
   filter: hue-rotate(-90deg);
+  transition: all 0.5s;
 }
 
 .brightness-in {

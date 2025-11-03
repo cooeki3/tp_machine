@@ -29,8 +29,7 @@ const Levier = ({ playAll, isOn, levierRef }) => {
   });
 
   return (
-    <div className={"levier-container" + (isOn ? " brightness-in" : "")}>
-      <img ref={levierRef} className="levier" src="/png/levier.png" alt="" />
+    <div ref={levierRef} className={"levier-container levier" + (isOn ? " brightness-in" : "")}>
     </div>
   );
 };

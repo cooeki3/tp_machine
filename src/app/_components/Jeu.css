@@ -26,7 +26,6 @@
   overflow: hidden;
 }
 
-/* ===== Cadre Jaune Jeu (Droite) ===== */
 .jeuCadre {
   position: absolute;
   top: 50%;
@@ -43,9 +42,7 @@
   pointer-events: none;
 }
 
-/* ===== Coins, Stars, Galaxies ===== */
 .object {
-
   opacity: 0;
   width: 200px;
   height: 200px;

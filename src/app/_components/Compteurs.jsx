@@ -38,32 +38,34 @@ const Compteurs = ({
   }, [winPopupTrigger]);
 
   return (
-    <div className={"compteurs-container " + (isOn ? " brightness-in" : "")}>
-      {isOn && (
-        <div className="btn-mise fade-in" ref={btnMiseRef}>
-          <p className="btn-mise-text">
-            {" "}
-            Mise: {miseSaisie ? miseSaisie : miseInitale}$
+    <div className={"compteurs-container " + (isOn ? " brightness-in" : "")}
+      style={{ opacity: isOn ? 1 : 0 }}>
+      <div
+        className="btn-mise"
+        ref={btnMiseRef}
+      >
+        <p className="btn-mise-text" >
+          Mise: {miseSaisie ? miseSaisie : miseInitale}$
+        </p>
+      </div>
+
+      <div
+        className="btn-balance"
+        ref={btnBalanceRef}
+      >
+        <p className="btn-balance-text">Balance: {balanceRestante}$</p>
+
+        {displayBetPopup && (
+          <p className="bet-popup bet">-{misePopupMontant}$</p>
+        )}
+
+        {displayWinPopup && (
+          <p className={"bet-popup win"}>
+            {winPopupMontant > 0 && "+"}
+            {winPopupMontant}$
           </p>
-        </div>
-      )}
-
-      {isOn && (
-        <div className="btn-balance fade-in" ref={btnBalanceRef}>
-          <p className="btn-balance-text">Balance: {balanceRestante}$</p>
-
-          {displayBetPopup && (
-            <p className="bet-popup bet">-{misePopupMontant}$</p>
-          )}
-
-          {displayWinPopup && (
-            <p className={"bet-popup win"}>
-              {winPopupMontant > 0 && "+"}
-              {winPopupMontant}$
-            </p>
-          )}
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

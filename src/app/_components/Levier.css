@@ -1,18 +1,21 @@
 .levier-container {
   position: absolute;
-  right: 6.7%;
   top: 20%;
-  z-index: 0;
-  transition: all 1s;
-  filter: brightness(0.5);
-}
-
-.levier {
-  width: 100px;
-  rotate: 20deg;
+  right: 1.5%;
   transform-origin: bottom left;
-}
+  rotate: 20deg;
+  z-index: 0;
+  filter: brightness(0.5);
+  transition: filter 1s;
 
+  background-image: url("/png/levier.png");
+  background-position: center;
+  background-position: left bottom;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 200px;
+  height: 250px;
+}
 .brightness-in {
   animation: brightness-in 0.5s forwards;
 }
