@@ -1,6 +1,6 @@
 .levier-container {
   position: absolute;
-  right: 8.5%;
+  right: 6.7%;
   top: 20%;
   z-index: 0;
   transition: all 1s;
@@ -8,10 +8,10 @@
 }
 
 .levier {
-  width: 60px;
+  width: 100px;
   rotate: 20deg;
-    transform-origin: bottom left;
-  /* rotate: 130deg; */
+  transform-origin: bottom left;
+  /* filter: drop-shadow(2px 2px 15px #ffcc00) drop-shadow(2px 2px 20px #ffbb00); */
 }
 
 .brightness-in {
