@@ -181,8 +181,9 @@ const Machine = () => {
     const tl = gsap.timeline();
     tl.call(() => {
       changeSource("/audio/casino.mp3", true);
+      console.log("Audio played")
     });
-    
+
 
     const multipliers = {
       coin: { 2: 1.25, 3: 2 },
