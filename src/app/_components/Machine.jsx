@@ -4,19 +4,19 @@ import { useGSAP } from "@gsap/react";
 import { useState, useRef, useEffect } from "react";
 import { useAudio } from "@/app/_contexts/AudioContext";
 
-
 import "./Machine.css";
 
-import Legende from "./Legende.jsx";
+import Legende from "./Clavier.jsx";
 import Jeu from "./Jeu.jsx";
 import Compteurs from "./Compteurs.jsx";
 import Boutons from "./Boutons.jsx";
+import Clavier from "./Clavier.jsx";
 
 gsap.registerPlugin(useGSAP);
 
 const Machine = () => {
   const timelines = useRef([]);
-  const initialBet = 10;
+  const initialBet = 0;
   const initialBalance = 500;
 
   var objects = [
@@ -31,6 +31,8 @@ const Machine = () => {
   const [miseInitale, setMiseInitale] = useState(initialBet);
   //State On/Off
   const [isOn, setIsOn] = useState(false);
+  //Input mise
+  const [typedBet, setTypedBet] = useState("");
   //State Balance restante
   const [balanceRestante, setBalanceRestante] = useState(500);
   //State Spin des symboles
@@ -71,19 +73,43 @@ const Machine = () => {
 
   const miseRef = useRef(10);
 
-  //Logique mise
-  const augmenterMise = () => {
-    if (miseInitale < 100) {
-      setMiseInitale(miseInitale + 5);
-    } else {
-      setIsMiseMax(true);
-      setTimeout(() => setIsMiseMax(false), 1500);
-    }
+  const afficherChiffre = (chiffre) => {
+    if (!isOn || isSpinning) return;
+
+    // Add number to bet input
+    let nouvelleValeur = typedBet + chiffre;
+
+    // Prevent more than 3 digits
+    if (nouvelleValeur.length > 3) nouvelleValeur = nouvelleValeur.slice(-3);
+
+    setTypedBet(nouvelleValeur);
   };
 
-  const diminuerMise = () => {
-    if (miseInitale > 5) setMiseInitale(miseInitale - 5);
+  // Confirm bet with #
+  const confirmerMise = () => {
+    if (!isOn) return;
+
+    const parsed = parseInt(typedBet);
+    if (isNaN(parsed)) return;
+
+    const validated = Math.min(Math.max(parsed, 5), 100);
+    setMiseInitale(validated);
+    setTypedBet("");
   };
+
+  //Logique mise
+  // const augmenterMise = () => {
+  //   if (miseInitale < 100) {
+  //     setMiseInitale(miseInitale + 5);
+  //   } else {
+  //     setIsMiseMax(true);
+  //     setTimeout(() => setIsMiseMax(false), 1500);
+  //   }
+  // };
+
+  // const diminuerMise = () => {
+  //   if (miseInitale > 5) setMiseInitale(miseInitale - 5);
+  // };
 
   //Logique on/off
   const togglePower = () => {
@@ -183,7 +209,6 @@ const Machine = () => {
       changeSource("/Audio/casino.mp3", true);
     });
 
-
     const multipliers = {
       coin: { 2: 1.25, 3: 2 },
       star: { 2: 1.5, 3: 5 },
@@ -232,7 +257,7 @@ const Machine = () => {
       if (!isOn) {
         timelines.current.forEach((tl) => tl.pause());
         gsap.set(imgs, { y: -450, overwrite: "auto" });
-        setIsSpinning(false)
+        setIsSpinning(false);
       } else {
         gsap.to(imgs, {
           y: 0,
@@ -240,8 +265,8 @@ const Machine = () => {
           duration: 0.6,
           ease: "elastic.out(1,0.5)",
           onComplete: () => {
-            setIsSpinning(false)
-          }
+            setIsSpinning(false);
+          },
         });
         timelines.current.forEach((tl) => tl.pause());
       }
@@ -255,17 +280,16 @@ const Machine = () => {
       gsap.to(".jouer", {
         filter: "brightness(0.8)",
         ease: "none",
-        duration: 0
+        duration: 0,
       });
     } else {
       gsap.to(".jouer", {
         filter: "brightness(2)",
         ease: "none",
-        duration: 0
+        duration: 0,
       });
     }
-  }, [isSpinning])
-
+  }, [isSpinning]);
 
   return (
     <>
@@ -275,17 +299,22 @@ const Machine = () => {
         <img className="logo" src="/png/logo.png" alt="Logo" />
       </div>
 
-      <Legende isOn={isOn} />
-
       <Jeu isOn={isOn} />
 
       <Boutons playAll={playAll} togglePower={togglePower} isOn={isOn} />
 
+      <Clavier
+        isOn={isOn}
+        afficherChiffre={afficherChiffre}
+        // confirmerMise={confirmerMise}
+      />
+
       <Compteurs
         isOn={isOn}
         miseInitale={miseInitale}
-        augmenterMise={augmenterMise}
-        diminuerMise={diminuerMise}
+        // augmenterMise={augmenterMise}
+        // diminuerMise={diminuerMise}
+        typedBet={typedBet}
         balanceRestante={balanceRestante}
         misePopupMontant={misePopupMontant}
         misePopupTrigger={misePopupTrigger}

@@ -4,8 +4,8 @@ import "./Compteurs.css";
 
 const Compteurs = ({
   miseInitale,
-  augmenterMise,
-  diminuerMise,
+  // augmenterMise,
+  // diminuerMise,
   isOn,
   balanceRestante,
   misePopupMontant,
@@ -13,6 +13,7 @@ const Compteurs = ({
   winPopupMontant,
   winPopupTrigger,
   isMiseMax,
+  typedBet,
 }) => {
   const [displayBetPopup, setDisplayBetPopup] = useState(false);
   const [displayWinPopup, setDisplayWinPopup] = useState(false);
@@ -41,14 +42,11 @@ const Compteurs = ({
     <div className={"compteurs-container " + (isOn ? " brightness-in" : "")}>
       {isOn && (
         <div className="btn-mise fade-in">
-          <button className="boutons-compteurs" onClick={diminuerMise}></button>
-          <p className="btn-mise-text">Mise: {miseInitale}$</p>
+          <p className="btn-mise-text">
+            {" "}
+            Mise: {typedBet ? typedBet : miseInitale}$
+          </p>
           {isMiseMax && <p className="mise-max">MISE MAX!</p>}
-
-          <button
-            className="boutons-compteurs"
-            onClick={augmenterMise}
-          ></button>
         </div>
       )}
 

@@ -1,6 +1,5 @@
 /* * ===== Compteurs Container ===== */
 .compteurs-container {
-
   display: flex;
   position: fixed;
   bottom: 0;
@@ -46,6 +45,8 @@
 
 .btn-mise-text {
   font-size: 20px;
+  position: absolute;
+  left: 35%;
 }
 
 .balance {
