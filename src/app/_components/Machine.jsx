@@ -35,7 +35,7 @@ const Machine = () => {
   //State On/Off
   const [isOn, setIsOn] = useState(false);
   //Input mise
-  const [typedBet, setTypedBet] = useState("");
+  const [miseSaisie, setmiseSaisie] = useState("");
   //State Balance restante
   const [balanceRestante, setBalanceRestante] = useState(500);
   //State Spin des symboles
@@ -79,11 +79,11 @@ const Machine = () => {
   //Inpout clavier
   const afficherChiffre = (chiffre) => {
     if (!isOn || isSpinning) return;
-    let fieldValue = typedBet + chiffre;
+    let fieldValue = miseSaisie + chiffre;
     if (fieldValue.length === 3) {
       fieldValue = fieldValue.substring(1);
     }
-    setTypedBet(fieldValue);
+    setmiseSaisie(fieldValue);
   };
 
   //Logique on/off
@@ -201,15 +201,15 @@ const Machine = () => {
     if (!isOn) return;
 
     // Determine the bet amount
-    let betAmount = typedBet ? Number(typedBet) : miseInitale;
+    let betAmount = miseSaisie ? Number(miseSaisie) : miseInitale;
 
     // Clamp between 5 and 100
     betAmount = Math.min(Math.max(betAmount, 5), 100);
 
     // Update state for new typed bet
-    if (typedBet) {
+    if (miseSaisie) {
       setMiseInitale(betAmount);
-      setTypedBet("");
+      setmiseSaisie("");
     }
 
     // Not enough balance?
@@ -313,9 +313,7 @@ const Machine = () => {
       <Compteurs
         isOn={isOn}
         miseInitale={miseInitale}
-        // augmenterMise={augmenterMise}
-        // diminuerMise={diminuerMise}
-        typedBet={typedBet}
+        miseSaisie={miseSaisie}
         balanceRestante={balanceRestante}
         misePopupMontant={misePopupMontant}
         misePopupTrigger={misePopupTrigger}

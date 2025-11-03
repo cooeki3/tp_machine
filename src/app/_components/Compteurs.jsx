@@ -13,7 +13,7 @@ const Compteurs = ({
   winPopupMontant,
   winPopupTrigger,
   isMiseMax,
-  typedBet,
+  miseSaisie,
 }) => {
   const [displayBetPopup, setDisplayBetPopup] = useState(false);
   const [displayWinPopup, setDisplayWinPopup] = useState(false);
@@ -44,7 +44,7 @@ const Compteurs = ({
         <div className="btn-mise fade-in">
           <p className="btn-mise-text">
             {" "}
-            Mise: {typedBet ? typedBet : miseInitale}$
+            Mise: {miseSaisie ? miseSaisie : miseInitale}$
           </p>
           {isMiseMax && <p className="mise-max">MISE MAX!</p>}
         </div>
