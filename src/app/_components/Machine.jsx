@@ -18,6 +18,7 @@ gsap.registerPlugin(useGSAP, Draggable);
 
 const Machine = () => {
   const timelines = useRef([]);
+  const tlLevier = useRef();
   const initialBet = 0;
   const initialBalance = 500;
 
@@ -280,11 +281,25 @@ const Machine = () => {
 
   //Bouton Jouer brightness
   useGSAP(() => {
+    if (tlLevier.current) {
+      tlLevier.current.kill();
+    }
     if (isSpinning) {
       gsap.to(".jouer", {
         filter: "brightness(0.8)",
         ease: "none",
         duration: 0,
+      });
+      gsap.to(".levier", {
+        filter: "none",
+        duration: 0.3,
+      });
+    } else if (isOn && !isSpinning) {
+      tlLevier.current = gsap.timeline({ repeat: -1, yoyo: true });
+      tlLevier.current.to(".levier", {
+        duration: 0.6,
+        filter:
+          "drop-shadow(2px 2px 15px #ffcc00) drop-shadow(2px 2px 20px #ffbb00)",
       });
     } else {
       gsap.to(".jouer", {
@@ -293,7 +308,7 @@ const Machine = () => {
         duration: 0,
       });
     }
-  }, [isSpinning]);
+  }, [isSpinning, isOn]);
 
   return (
     <>
