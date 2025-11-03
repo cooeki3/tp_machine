@@ -76,14 +76,14 @@ const Machine = () => {
 
   const miseRef = useRef(10);
 
+  //Inpout clavier
   const afficherChiffre = (chiffre) => {
     if (!isOn || isSpinning) return;
     let fieldValue = typedBet + chiffre;
-    
-    // fieldValue = fieldValue.substring(1);
-    if (fieldValue > 100) return;
+    if (fieldValue.length === 3) {
+      fieldValue = fieldValue.substring(1);
+    }
     setTypedBet(fieldValue);
-
   };
 
   //Logique on/off
