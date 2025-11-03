@@ -181,7 +181,6 @@ const Machine = () => {
     const tl = gsap.timeline();
     tl.call(() => {
       changeSource("/Audio/casino.mp3", true);
-      console.log("Audio played")
     });
 
 
