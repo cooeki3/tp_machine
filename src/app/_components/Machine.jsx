@@ -20,7 +20,7 @@ const Machine = () => {
   const timelines = useRef([]);
   const tlLevier = useRef();
   const miseInitiale = 5;
-  const balanceInitiale = 1000;
+  const balanceInitiale = 100;
 
   const btnBalanceRef = useRef();
   const btnMiseRef = useRef();
@@ -41,7 +41,7 @@ const Machine = () => {
 
   const [isOn, setIsOn] = useState(false);
   const [miseInitale, setMiseInitale] = useState(miseInitiale);
-  const [miseSaisie, setmiseSaisie] = useState("");
+  const [miseSaisie, setmiseSaisie] = useState("5");
   const [balanceRestante, setBalanceRestante] = useState(balanceInitiale);
   const [isSpinning, setIsSpinning] = useState(false);
   const [misePopupTrigger, setMisePopupTrigger] = useState(0);
@@ -75,7 +75,7 @@ const Machine = () => {
   const togglePower = () => {
     if (isOn) {
       setBalanceRestante(balanceInitiale);
-      setmiseSaisie("");
+      setmiseSaisie("5");
     }
     setIsOn(!isOn);
   };
@@ -134,16 +134,10 @@ const Machine = () => {
     const img2 = imgs[1].src;
     const img3 = imgs[2].src;
 
-    const getSymbol = (img) => {
-      switch (true) {
-        case img.includes("machine_coin.png"):
-          return "coin";
-        case img.includes("machine_star.png"):
-          return "star";
-        default:
-          return "galaxy";
-      }
-    };
+    const getSymbol = (img) =>
+      img.includes("machine_coin.png") ? "coin" :
+        img.includes("machine_star.png") ? "star" :
+          "galaxy";
 
     const [symbol1, symbol2, symbol3] = [img1, img2, img3].map(getSymbol);
 
@@ -181,11 +175,6 @@ const Machine = () => {
 
   function playAll() {
     if (!isOn) return;
-
-    if (miseSaisie > 0) {
-      setMiseInitale(miseSaisie);
-      setmiseSaisie("");
-    }
 
     if (
       (miseSaisie > balanceRestante && !balanceAnimating) ||
@@ -289,7 +278,7 @@ const Machine = () => {
       ease: "power2.out"
     });
 
-    if (balanceRestante >= 50) {
+    if (balanceRestante >= 250) {
       gsap.to(".recompense1", {
         filter: "brightness(1)",
         pointerEvents: "auto"
