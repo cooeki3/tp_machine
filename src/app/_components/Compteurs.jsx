@@ -38,12 +38,9 @@ const Compteurs = ({
   }, [winPopupTrigger]);
 
   return (
-    <div
-      ref={btnMiseRef}
-      className={"compteurs-container " + (isOn ? " brightness-in" : "")}
-    >
+    <div className={"compteurs-container " + (isOn ? " brightness-in" : "")}>
       {isOn && (
-        <div className="btn-mise fade-in">
+        <div className="btn-mise fade-in" ref={btnMiseRef}>
           <p className="btn-mise-text">
             {" "}
             Mise: {miseSaisie ? miseSaisie : miseInitale}$

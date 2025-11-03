@@ -27,6 +27,7 @@ const Machine = () => {
   const cadreRef = useRef();
   const clavierRef = useRef();
   const levierRef = useRef();
+  const logoRef = useRef();
 
   var objects = [
     { url: "png/machine_coin.png" },
@@ -285,22 +286,23 @@ const Machine = () => {
     [balanceRef, "btnBalance.png", "bg"],
     [btnMiseRef, "btnMise.png", "bg"],
     [cadreRef, "jeuCadre.png", "bg"],
-    [clavierRef, "keypad.png", "img"],
-    [levierRef, "levier.png", "bg"],
+    [clavierRef, "keypad.png", "bg"],
+    [levierRef, "levier.png", "img"],
+    [logoRef, "logo.png", "img"],
   ];
+
   function changerCouleur(couleur) {
-    var base = "/png/" + couleur + "/" + couleur + "-";
+    var prefix = "/png/" + couleur + "/" + couleur + "-";
     for (var i = 0; i < couleurDefault.length; i++) {
       var ref = couleurDefault[i][0];
-      var fichier = couleurDefault[i][1];
-      var mode = couleurDefault[i][2];
+      var path = couleurDefault[i][1];
+      var type = couleurDefault[i][2];
 
       if (!ref || !ref.current) continue;
-
-      if (mode === "img") {
-        ref.current.src = base + fichier;
-      } else if (mode === "bg") {
-        ref.current.style.backgroundImage = "url(" + base + fichier + ")";
+      if (type === "img") {
+        ref.current.src = prefix + path;
+      } else if (type === "bg") {
+        ref.current.style.backgroundImage = "url(" + prefix + path + ")";
       }
     }
   }
@@ -311,7 +313,7 @@ const Machine = () => {
       <div className="page-background"></div>
 
       <div className="logo-container">
-        <img className="logo" src="/png/logo.png" alt="Logo" />
+        <img ref={logoRef} className="logo" src="/png/logo.png" alt="Logo" />
       </div>
 
       <Jeu isOn={isOn} cadreRef={cadreRef} />
