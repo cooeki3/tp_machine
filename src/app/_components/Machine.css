@@ -1,7 +1,7 @@
 .page-background {
   position: fixed;
   z-index: -1;
-  background-image: url("/png/pageBackground.jpg");
+  background-image: url("/png/pageBackground.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
