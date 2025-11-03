@@ -78,16 +78,18 @@ const Machine = () => {
   const afficherChiffre = (chiffre) => {
     if (!isOn || isSpinning) return;
 
-    // Add number to bet input
-    let nouvelleValeur = typedBet + chiffre;
+    const newInput = typedBet + chiffre;
 
-    // Prevent more than 3 digits
-    if (nouvelleValeur.length > 3) nouvelleValeur = nouvelleValeur.slice(-3);
+    // Prevent bet higher than 100
+    if (Number(newInput) > 100) return;
 
-    setTypedBet(nouvelleValeur);
+    // Prevent too many digits
+    if (newInput.length > 3) return;
+
+    setTypedBet(newInput);
   };
 
-  // Confirm bet with #
+  // Confirmer bet avec levier
   const confirmerMise = () => {
     if (!isOn) return;
 
@@ -224,10 +226,24 @@ const Machine = () => {
     setBalanceRestante((prev) => prev + winAmount);
   }
 
-  //Jouer
   function playAll() {
-    if (miseInitale > balanceRestante && !balanceAnimating) {
-      setbalanceAnimating(true);
+    if (!isOn) return;
+
+    // Determine the bet amount
+    let betAmount = typedBet ? Number(typedBet) : miseInitale;
+
+    // Clamp between 5 and 100
+    betAmount = Math.min(Math.max(betAmount, 5), 100);
+
+    // Update state for new typed bet
+    if (typedBet) {
+      setMiseInitale(betAmount);
+      setTypedBet("");
+    }
+
+    // Not enough balance?
+    if (betAmount > balanceRestante && !balanceAnimating) {
+      setBalanceAnimating(true);
       const tl = gsap.timeline({
         yoyo: true,
         repeat: 3,
@@ -240,18 +256,18 @@ const Machine = () => {
       });
 
       return;
-    } else if (isSpinning) {
-      return;
-    } else {
-      setIsSpinning(true);
-      const betAmount = miseInitale;
-      setBetPopupMontant(miseInitale);
-      timelines.current.forEach((tl) => tl.restart());
-      setMisePopupTrigger((prev) => prev + 1);
-      setBalanceRestante((prev) => prev - betAmount);
-
-      miseRef.current = miseInitale;
     }
+
+    // Prevent new spins if already spinning
+    if (isSpinning) return;
+
+    // Start the spin
+    setIsSpinning(true);
+    setBetPopupMontant(betAmount);
+    timelines.current.forEach((tl) => tl.restart());
+    setMisePopupTrigger((prev) => prev + 1);
+    setBalanceRestante((prev) => prev - betAmount);
+    miseRef.current = betAmount;
   }
 
   //Reset objets
