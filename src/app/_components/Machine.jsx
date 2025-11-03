@@ -3,6 +3,8 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useState, useRef, useEffect } from "react";
 import { useAudio } from "@/app/_contexts/AudioContext";
+import { Draggable } from "gsap/all";
+
 
 import "./Machine.css";
 
@@ -11,8 +13,9 @@ import Jeu from "./Jeu.jsx";
 import Compteurs from "./Compteurs.jsx";
 import Boutons from "./Boutons.jsx";
 import Clavier from "./Clavier.jsx";
+import Levier from "./Levier.jsx";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(useGSAP, Draggable);
 
 const Machine = () => {
   const timelines = useRef([]);
@@ -222,6 +225,7 @@ const Machine = () => {
     setBalanceRestante((prev) => prev + winAmount);
   }
 
+  //Jouer
   function playAll() {
     if (miseInitale > balanceRestante && !balanceAnimating) {
       setbalanceAnimating(true);
@@ -251,13 +255,14 @@ const Machine = () => {
     }
   }
 
+  //Reset objets
   useGSAP(
     () => {
       const imgs = document.querySelectorAll(".object");
       if (!isOn) {
         timelines.current.forEach((tl) => tl.pause());
         gsap.set(imgs, { y: -450, overwrite: "auto" });
-        setIsSpinning(false);
+        setIsSpinning(false);;
       } else {
         gsap.to(imgs, {
           y: 0,
@@ -265,8 +270,8 @@ const Machine = () => {
           duration: 0.6,
           ease: "elastic.out(1,0.5)",
           onComplete: () => {
-            setIsSpinning(false);
-          },
+            setIsSpinning(false);;
+          },,
         });
         timelines.current.forEach((tl) => tl.pause());
       }
@@ -274,21 +279,22 @@ const Machine = () => {
     { dependencies: [isOn] }
   );
 
-  //Bouton brightness Jouer
+  //Bouton Jouer brightness
   useGSAP(() => {
     if (isSpinning) {
       gsap.to(".jouer", {
         filter: "brightness(0.8)",
         ease: "none",
-        duration: 0,
+        duration: 0,,
       });
     } else {
       gsap.to(".jouer", {
         filter: "brightness(2)",
         ease: "none",
-        duration: 0,
+        duration: 0,,
       });
     }
+  }, [isSpinning]);
   }, [isSpinning]);
 
   return (
@@ -322,8 +328,11 @@ const Machine = () => {
         winPopupTrigger={winPopupTrigger}
         isMiseMax={isMiseMax}
       />
+
+      <Levier isOn={isOn} playAll={playAll}/>
     </>
   );
 };
 
 export default Machine;
+

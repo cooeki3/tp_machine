@@ -1,0 +1,25 @@
+.levier-container {
+  position: absolute;
+  right: 8.5%;
+  top: 20%;
+  z-index: 0;
+  transition: all 1s;
+  filter: brightness(0.5);
+}
+
+.levier {
+  width: 60px;
+  rotate: 20deg;
+    transform-origin: bottom left;
+  /* rotate: 130deg; */
+}
+
+.brightness-in {
+  animation: brightness-in 0.5s forwards;
+}
+
+@keyframes brightness-in {
+  to {
+    filter: brightness(1);
+  }
+}
