@@ -24,6 +24,20 @@
 .recompenses {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  height: 100%;
+  width: 30%;
+  height: 30%;
+  gap: 20px;
+  position: absolute;
+  left: 16%;
+  z-index: 100;
+}
+
+.recompense1 {
+  filter: brightness(0.5);
+}
+.recompense2 {
+  filter: brightness(0.5);
+}
+.recompense3 {
+  filter: brightness(0.5);
 }
